@@ -13,7 +13,7 @@ window.onload = function() {
 	let canvasId = 'canvas';
 	let canvasFloorId = 'canvas-floor';
 	let canvasWidth = window.innerWidth;
-	let canvasHeight = window.innerHeight;
+	let canvasHeight = window.innerHeight * 0.85; //canvas-floor: * 0.15
 
 	let canvasAttrs = {
 		width: canvasWidth,
