@@ -41,12 +41,9 @@ Player.prototype.trackKeys = function () {
 			let downPressed;
 			if (e.type === 'keydown') {
 				downPressed = true;
-				// console.log(downPressed);
 			} else {
 				downPressed = false;
-				// console.log(downPressed);
 			}
-
 			pressedKeys[this.ARROW_CODES[e.keyCode]] = downPressed;
 			e.preventDefault();
 		}
@@ -64,7 +61,7 @@ Player.prototype.move = function () {
 }
 
 Player.prototype.moveX = function () {
-	if (this.keys.left) { //LEFT
+	if (this.keys.left) {
 		this.img.src = this.imgLeft;
 	} else if (this.keys.right) {
 		this.img.src = this.imgRight;
@@ -91,13 +88,10 @@ Player.prototype.draw = function () {
 		this.w,
 		this.h
 	);
-
-
 }
 
 Player.prototype.animateImg = function () {
 	// It changes the frame.  The larger the module, the slower the character moves
-
 	if (this.game.framesCounter % 5 === 0) {
 		if (this.keys.left || this.keys.right) {
 			this.img.frameIndexW += 1;
@@ -106,5 +100,4 @@ Player.prototype.animateImg = function () {
 			this.img.frameIndexW = 0;
 		}
 	}
-
 };
