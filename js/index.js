@@ -3,18 +3,25 @@ window.onload = function() {
 	let btnStart = document.getElementById('btn-start');
 	let homeCharacter = document.getElementById('hero-character');
 	let heroWrap = document.getElementById('hero-wrap');
-	let container = document.getElementById('container');
+	let canvasWrap = document.getElementById('canvas-wrap');
 
 	let itemsToRemove = [btnStart, homeCharacter];
-
+	
+	
+	let canvasTag = 'canvas';
+	let canvasFloorTag = 'div';
 	let canvasId = 'canvas';
+	let canvasFloorId = 'canvas-floor';
 	let canvasWidth = window.innerWidth;
 	let canvasHeight = window.innerHeight;
+
 	let canvasAttrs = {
 		width: canvasWidth,
 		height: canvasHeight,
-		id: canvasId,
 		class: canvasId
+	}
+	let canvasFloorAttrs = {
+		class: 'canvas-floor',
 	}
 
 	let removeHomeItems = (items) => {
@@ -27,21 +34,31 @@ window.onload = function() {
 		hero.classList.add('small');
 	}
 
-	let addHtmlElem = (canvasIdentifier) => {
-		let canvasElem = document.createElement(canvasIdentifier);
-		container.appendChild(canvasElem);
+	let createElem = (type, idName) => {
+		let element = document.createElement(type);
+		if (idName) element.id = idName;
+		console.log(element);
+		return element;
+	}
+
+	let DOMDisplay = (parent) => {
+		parent.appendChild(createElem('canvas', 'canvas'));
+		parent.appendChild(createElem('div', 'canvas-floor'));
 	}
 
 	let setAttrs = (elem, attrs) => {
 		for (let key in attrs) {
-			elem[0].setAttribute(key, attrs[key]);	
+			elem.setAttribute(key, attrs[key]);	
 		}
 	}
 
 	/* NEW GAME */
 	let createNewGame = () => {
-		let canvasTag = document.getElementsByTagName(canvasId);
-		setAttrs(canvasTag, canvasAttrs);
+		let canvasElem = document.getElementById(canvasId);
+		let canvasFloorElem = document.getElementById(canvasFloorId);
+		setAttrs(canvasElem, canvasAttrs);
+		setAttrs(canvasFloorElem, canvasFloorAttrs);
+
 		let game = new Game(canvasId);
 		game.start();
 	}
@@ -50,7 +67,8 @@ window.onload = function() {
 		e.preventDefault();
 		removeHomeItems(itemsToRemove);
 		makeTitleSmaller(heroWrap);
-		addHtmlElem(canvasId);
+		// Add canvas & canvas-floor to the HTML
+		DOMDisplay(canvasWrap);
 		createNewGame();
 	});
 }
