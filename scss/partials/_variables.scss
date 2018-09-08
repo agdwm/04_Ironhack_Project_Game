@@ -1,0 +1,42 @@
+/* Colors
+========================================================================== */
+$text-color: #000 !default;
+$blue-color: #46ADB6 !default;
+$red-color: #BE3142 !default;
+$floor-color: #47434c !default;
+
+/* Fonts
+========================================================================== */
+// Font Families
+@import url("https://fonts.googleapis.com/css?family=Londrina+Solid:300,400,900");
+$main-font-family: 'Londrina Solid', cursive !default;
+
+@font-face {
+	font-family: 'icomoon';
+	src: url('../fonts/icomoon.eot?uorrl8');
+	src: url('../fonts/icomoon.eot?uorrl8#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon.ttf?uorrl8') format('truetype'),
+		url('../fonts/icomoon.woff?uorrl8') format('woff'),
+		url('../fonts/icomoon.svg?uorrl8#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'icomoon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+// Font Sizes
+$font-size-body: 1rem !default;
+$font-size-h1: 5.625rem !default;

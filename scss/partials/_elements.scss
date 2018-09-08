@@ -1,0 +1,22 @@
+html {
+	font-size: 16px;
+}
+
+body {
+	font-size: $font-size-body;
+	font-family: $main-font-family;
+}
+
+h1 {
+	font-size: 90px;
+	margin-top: 0;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	transition: all 0.8s ease;
+	display: inline-block;
+	text-align: center;
+}
+
+h1 span {
+	display: block;
+}

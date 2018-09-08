@@ -1,0 +1,23 @@
+.hero-wrap {
+	text-align: center;
+	position: absolute;
+	@include centerer(true, true);
+}
+.hero {
+	@extend %clearfix;
+	margin-bottom: 3.125rem;
+}
+
+.hero-character {
+	display: inline-block;
+}
+
+.btn-start {
+	font-family: 'Londrina Solid', cursive;
+	font-size: 28px;
+	cursor: pointer;
+	padding: 10px 15px;
+	border: 4px solid #000;
+	margin: 0 auto;
+	display: block;
+}

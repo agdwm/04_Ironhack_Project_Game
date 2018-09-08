@@ -1,0 +1,68 @@
+/* MIXINS & FUNCTIONS
+========================================================================== */
+
+/* Vertical & Horizontal Alignment
+========================================================================== */
+@mixin centerer($horizontal: true, $vertical: true) {
+	position: absolute;
+
+	@if ($horizontal and $vertical) {
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	@else if ($horizontal) {
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	@else if ($vertical) {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
+/* Responsive Utils
+========================================================================== */
+@mixin if-mobile-portrait {
+	@media (max-width: #{$mobile-portrait-width}) {
+		@content;
+	}
+}
+
+@mixin if-mobile-landscape {
+	@media (min-width: #{$mobile-portrait-width + 1}) {
+		@content;
+	}
+}
+
+@mixin if-mobile {
+	@media if-mobile-portrait {
+		@content;
+	}
+}
+
+@mixin if-tablet-portrait {
+	@media (min-width: #{$tablet-portrait-width}) {
+		@content;
+	}
+}
+
+@mixin if-tablet-landscape {
+	@media (min-width: #{$tablet-landscape-width}) {
+		@content;
+	}
+}
+
+@mixin if-tablet {
+	@include if-tablet-portrait () {
+		@content;
+	}
+}
+
+@mixin if-desktop {
+	@include if-tablet-landscape () {
+		@content;
+	}
+}
