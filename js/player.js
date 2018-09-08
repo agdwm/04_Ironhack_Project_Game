@@ -1,7 +1,7 @@
 function Player(game) {
 	this.game = game;
 
-	this.imgFront = 'images/cartmanFront.png'; 
+	this.imgFront = 'images/cartmanFront.png';
 	this.imgLeft = 'images/cartmanLeft.png';
 	this.imgRight = 'images/cartmanRight.png';
 
@@ -12,7 +12,7 @@ function Player(game) {
 	this.h = 150;
 	this.x = 20;
 	this.y0 = this.game.canvas.height - (this.h - 5); //5px borders image
-	
+
 	this.y = this.y0;
 
 	this.img.framesW = 2;
@@ -21,59 +21,61 @@ function Player(game) {
 	this.img.frameIndexH = 0;
 
 	this.dx = 0;
-	this.dy = 
+	this.dy =
 
 	this.ARROW_CODES = {
 		37: 'left',
 		38: 'top',
-		39: 'right'		
+		39: 'right'
 	}
 
 	this.keys = this.trackKeys();
 }
 
 
-Player.prototype.trackKeys = function() {
+Player.prototype.trackKeys = function () {
 	let pressedKeys = {};
-	
-    let handler = (e) => {
-        if (this.ARROW_CODES.hasOwnProperty(e.keyCode)) {
+
+	let handler = (e) => {
+		if (this.ARROW_CODES.hasOwnProperty(e.keyCode)) {
 			let downPressed;
-			if (e.type === 'keydown'){
+			if (e.type === 'keydown') {
 				downPressed = true;
-				console.log(downPressed);
+				// console.log(downPressed);
 			} else {
 				downPressed = false;
-				console.log(downPressed);
+				// console.log(downPressed);
 			}
-             
+
 			pressedKeys[this.ARROW_CODES[e.keyCode]] = downPressed;
-            e.preventDefault();
-        }
+			e.preventDefault();
+		}
 	}
-	
-    document.addEventListener('keydown', handler);
+
+	document.addEventListener('keydown', handler);
 	document.addEventListener('keyup', handler);
-	
+
 	return pressedKeys;
 }
 
-Player.prototype.move = function() {
+Player.prototype.move = function () {
 	this.moveX();
 	this.moveY();
 }
 
 Player.prototype.moveX = function () {
-	//keydown || keyup
 	if (this.keys.left) { //LEFT
 		this.img.src = this.imgLeft;
-	} else {
+	} else if (this.keys.right) {
 		this.img.src = this.imgRight;
+	} else {
+		this.img.src = this.imgFront;
 	}
+	this.animateImg();
 }
 
 Player.prototype.moveY = function () {
-	
+
 }
 
 Player.prototype.draw = function () {
@@ -90,15 +92,19 @@ Player.prototype.draw = function () {
 		this.h
 	);
 
-	this.animateImg();
+
 }
 
 Player.prototype.animateImg = function () {
 	// It changes the frame.  The larger the module, the slower the character moves
-	if (this.game.framesCounter % 1 === 0) {
-		this.img.frameIndexW += 1;
 
-		if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
+	if (this.game.framesCounter % 5 === 0) {
+		if (this.keys.left || this.keys.right) {
+			this.img.frameIndexW += 1;
+			if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
+		} else {
+			this.img.frameIndexW = 0;
+		}
 	}
-};
 
+};

@@ -9,14 +9,13 @@ function Game (canvasId) {
 Game.prototype.reset = function() {
 	this.background = new Background(this);
 	this.player = new Player(this);
-}
 
-Game.prototype.clear = function () {
-	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-};
+	this.framesCounter = 0;
+}
 
 Game.prototype.start = function() {
 	this.interval = setInterval(() => {
+
 		this.clear();
 		this.framesCounter++;
 
@@ -29,6 +28,14 @@ Game.prototype.start = function() {
 
 	}, 1000 / this.fps);
 }
+
+Game.prototype.clear = function () {
+	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+};
+
+Game.prototype.stop = function () {
+	clearInterval(this.interval);
+};
 
 Game.prototype.draw = function () {
 	this.background.draw();
