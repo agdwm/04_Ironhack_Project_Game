@@ -8,6 +8,7 @@ function Game (canvasId) {
 
 Game.prototype.reset = function() {
 	this.background = new Background(this);
+	this.player = new Player(this);
 }
 
 Game.prototype.clear = function () {
@@ -31,6 +32,7 @@ Game.prototype.start = function() {
 
 Game.prototype.draw = function () {
 	this.background.draw();
+	this.player.draw();
 }
 
 Game.prototype.moveAll = function () {
