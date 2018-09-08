@@ -1,6 +1,7 @@
 .hero-wrap {
 	text-align: center;
 	position: absolute;
+	z-index: 1;
 	@include centerer(true, true);
 	transition: all 0.8s ease;
 	.hero {
@@ -46,11 +47,22 @@
 	display: block;
 }
 
+.canvas-wrap {
+	position: absolute;
+	height: 100vh;
+	width: 100vw;
+}
+
 .canvas {
-	position: relative;
 	background-color: $light-blue-color;
+	vertical-align: bottom;
 }
 
 .canvas-floor {
-
+	position: absolute;
+	height: calc(100vh * 0.15);
+	width: 100vw;
+	left: 0;
+	right: 0;
+	background-color: $floor-color;
 }
