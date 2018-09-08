@@ -2,21 +2,45 @@
 	text-align: center;
 	position: absolute;
 	@include centerer(true, true);
-}
-.hero {
-	@extend %clearfix;
-	margin-bottom: 3.125rem;
-}
+	transition: all 0.8s ease;
+	.hero {
+		@extend %clearfix;
+		margin-bottom: 3.125rem;
+	}
+	
+	.hero-character {
+		display: inline-block;
+	}
+	.hero-title {
+		font-size: $font-size-h1;
+		margin-top: 0;
+		text-transform: uppercase;
+		letter-spacing: 3px;
+		transition: all 0.8s ease;
+		display: inline-block;
+		text-align: center;
 
-.hero-character {
-	display: inline-block;
+		span {
+			display: block;
+		}
+	}
+	&.small {
+		top: 2rem;
+		@include centerer(true, false);
+		.hero-title {
+			font-size: 2.625rem;
+			span {
+				display: inline-block;
+			}
+		}
+	}
 }
 
 .btn-start {
 	font-family: 'Londrina Solid', cursive;
-	font-size: 28px;
+	font-size: 1.75rem;
 	cursor: pointer;
-	padding: 10px 15px;
+	padding: 0.625rem 0.9375rem;
 	border: 4px solid #000;
 	margin: 0 auto;
 	display: block;
