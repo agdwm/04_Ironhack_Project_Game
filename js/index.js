@@ -7,9 +7,6 @@ window.onload = function() {
 
 	let itemsToRemove = [btnStart, homeCharacter];
 	
-	
-	let canvasTag = 'canvas';
-	let canvasFloorTag = 'div';
 	let canvasId = 'canvas';
 	let canvasFloorId = 'canvas-floor';
 	let canvasWidth = window.innerWidth;

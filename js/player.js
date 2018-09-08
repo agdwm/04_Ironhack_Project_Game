@@ -21,8 +21,59 @@ function Player(game) {
 	this.img.frameIndexH = 0;
 
 	this.dx = 0;
+	this.dy = 
 
-	this.setListeners();
+	this.ARROW_CODES = {
+		37: 'left',
+		38: 'top',
+		39: 'right'		
+	}
+
+	this.keys = this.trackKeys();
+}
+
+
+Player.prototype.trackKeys = function() {
+	let pressedKeys = {};
+	
+    let handler = (e) => {
+        if (this.ARROW_CODES.hasOwnProperty(e.keyCode)) {
+			let downPressed;
+			if (e.type === 'keydown'){
+				downPressed = true;
+				console.log(downPressed);
+			} else {
+				downPressed = false;
+				console.log(downPressed);
+			}
+             
+			pressedKeys[this.ARROW_CODES[e.keyCode]] = downPressed;
+            e.preventDefault();
+        }
+	}
+	
+    document.addEventListener('keydown', handler);
+	document.addEventListener('keyup', handler);
+	
+	return pressedKeys;
+}
+
+Player.prototype.move = function() {
+	this.moveX();
+	this.moveY();
+}
+
+Player.prototype.moveX = function () {
+	//keydown || keyup
+	if (this.keys.left) { //LEFT
+		this.img.src = this.imgLeft;
+	} else {
+		this.img.src = this.imgRight;
+	}
+}
+
+Player.prototype.moveY = function () {
+	
 }
 
 Player.prototype.draw = function () {
@@ -38,10 +89,8 @@ Player.prototype.draw = function () {
 		this.w,
 		this.h
 	);
-}
 
-Player.prototype.setListeners = function () {
-
+	this.animateImg();
 }
 
 Player.prototype.animateImg = function () {
@@ -49,8 +98,7 @@ Player.prototype.animateImg = function () {
 	if (this.game.framesCounter % 1 === 0) {
 		this.img.frameIndexW += 1;
 
-		// If it is the last frame, returns to the first
 		if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
 	}
-	//steps.play();
 };
+

@@ -37,4 +37,5 @@ Game.prototype.draw = function () {
 
 Game.prototype.moveAll = function () {
 	this.background.move();
+	this.player.move();
 }
