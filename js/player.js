@@ -12,20 +12,21 @@ function Player(game) {
 	this.h = 150;
 	this.x = 20;
 	this.y0 = this.game.canvas.height - (this.h - 5); //5px borders image
-
 	this.y = this.y0;
+	this.weight = 0;
 
 	this.img.framesW = 2;
 	this.img.framesH = 5;
 	this.img.frameIndexW = 0;
 	this.img.frameIndexH = 0;
 
-	this.dx = 3;
+	this.dx = 1;
 	this.dxStop = 0;
 	this.dxStart = 5;
 
 	this.vy = 1;
 	this.isJumping = false;
+	this.maxLives = 4;
 
 	this.ARROW_CODES = {
 		37: 'left',
@@ -62,6 +63,39 @@ Player.prototype.trackKeys = function () {
 	return pressedKeys;
 }
 
+Player.prototype.draw = function () {
+	//context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+	this.game.ctx.drawImage(
+		this.img,
+		this.img.frameIndexW * Math.floor(this.img.width / this.img.framesW),
+		this.img.frameIndexH * Math.floor(this.img.height / this.img.framesH),
+		Math.floor(this.img.width / this.img.framesW),
+		Math.floor(this.img.height / this.img.framesH),
+		this.x,
+		this.y,
+		this.w,
+		this.h
+	);
+}
+
+Player.prototype.animateImg = function (status) {
+	// It changes the frame.  The larger the module, the slower the character moves
+	if (status && status === 'death') {
+		this.img.src = this.characterFront;
+		this.img.frameIndexH = 0;
+		this.img.frameIndexW = 1;
+	} else {
+		if (this.game.framesCounter % 5 === 0) {
+			if (this.keys.left || this.keys.right) {
+				this.img.frameIndexW += 1;
+				if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
+			} else {
+				this.img.frameIndexW = 0;
+			}
+		}
+	}
+};
+
 Player.prototype.move = function () {
 	//check if collision when the character is not moving
 	if (this.isObstacle()) {
@@ -83,7 +117,6 @@ Player.prototype.moveX = function () {
 
 		if (this.x + this.w < this.game.canvas.width) { //INSIDE OF CANVAS
 			if (this.isObstacle()) {
-				console.log('COLISION');
 				let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
 				let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
 
@@ -167,30 +200,13 @@ Player.prototype.moveY = function () {
 	}
 }
 
+Player.prototype.grow = function(){
+	this.weight++;
 
-Player.prototype.draw = function () {
-	//context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-	this.game.ctx.drawImage(
-		this.img,
-		this.img.frameIndexW * Math.floor(this.img.width / this.img.framesW),
-		this.img.frameIndexH * Math.floor(this.img.height / this.img.framesH),
-		Math.floor(this.img.width / this.img.framesW),
-		Math.floor(this.img.height / this.img.framesH),
-		this.x,
-		this.y,
-		this.w,
-		this.h
-	);
-}
-
-Player.prototype.animateImg = function () {
-	// It changes the frame.  The larger the module, the slower the character moves
-	if (this.game.framesCounter % 5 === 0) {
-		if (this.keys.left || this.keys.right) {
-			this.img.frameIndexW += 1;
-			if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
-		} else {
-			this.img.frameIndexW = 0;
-		}
+	if (this.weight <= this.maxLives) {
+		this.img.frameIndexH = this.weight;
+	} else {
+		this.animateImg('death');
+		this.game.gameOver();
 	}
-};
+}
