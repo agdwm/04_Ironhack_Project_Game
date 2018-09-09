@@ -79,23 +79,35 @@ Player.prototype.move = function () {
 Player.prototype.moveX = function () {
 
 	if (this.keys.right) {
-		this.x += 5;
+		
 		this.img.src = this.imgRight;
 		
 		if(!this.isJumping) this.animateImg();
+
+		if(this.x + this.w >= this.game.canvas.width){
+			this.x += 0;
+		}else{
+			this.x += 5;
+		}
 	}
+
 	if (this.keys.left) {
-		this.x -= 5;
+	
 		this.img.src = this.imgLeft;
 
 		if(!this.isJumping)	this.animateImg();
+		if(this.x <= this.game.canvas.x){
+			this.x += 0;
+		}else{
+			this.x -= 5;
+		}
 	}
-
 	if (this.keys.top && !this.isJumping) {
 		this.y -= 70;
 		this.vy -= 20;
 		this.isJumping = true;
 	}
+
 }
 
 Player.prototype.moveY = function () {

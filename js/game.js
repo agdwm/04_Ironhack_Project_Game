@@ -3,6 +3,8 @@ function Game (canvasId) {
 	this.ctx = this.canvas.getContext('2d');
 	this.fps = 60;
 
+	this.canvas.x = 0;
+
 	this.reset();
 }
 
