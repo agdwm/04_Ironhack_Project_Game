@@ -13,10 +13,14 @@ Game.prototype.reset = function() {
 	this.player = new Player(this);
 
 	this.framesCounter = 0;
+	this.obstaclesCounter = 0;
+	this.limitOfObstacles = 8;
+	this.obstacles = ['obstacle1', 'obstacle2', 'obstacle3'];
+	this.obstaclesGenerated = [];
 }
 
 Game.prototype.start = function() {
-	this.interval = setInterval(() => {
+	this.interval = setInterval(function() {
 
 		this.clear();
 		this.framesCounter++;
@@ -25,10 +29,18 @@ Game.prototype.start = function() {
 			this.framesCounter = 0;
 		}
 
+		if (this.framesCounter % 300 === 0) {
+			this.obstaclesCounter++;
+			if(this.obstaclesCounter <= this.limitOfObstacles){
+				this.generateObstacle();
+				this.drawObstacles();
+			}
+		}
+
 		this.moveAll();
 		this.draw();
 
-	}, 1000 / this.fps);
+	}.bind(this), 1000 / this.fps);
 }
 
 Game.prototype.clear = function () {
@@ -39,9 +51,19 @@ Game.prototype.stop = function () {
 	clearInterval(this.interval);
 };
 
+Game.prototype.generateObstacle = function () {
+	this.obstaclesGenerated.push(Math.floor(Math.random() * (this.obstacles.length - 1 + 1) + 1));
+}
+
 Game.prototype.draw = function () {
 	this.background.draw();
 	this.player.draw();
+}
+
+Game.prototype.drawObstacles = function(){
+	this.obstaclesGenerated.forEach((obstacleGenerated) => {
+		//obstacleGenerated.draw(obstacle);
+	});
 }
 
 Game.prototype.moveAll = function () {

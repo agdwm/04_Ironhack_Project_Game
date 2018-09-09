@@ -65,7 +65,7 @@ window.onload = function() {
 		let embedElem = document.getElementById(embedId);
 		setAttrs(canvasElem, canvasAttrs);
 		setAttrs(canvasFloorElem, canvasFloorAttrs);
-		setAttrs(embedElem, emdedAttrs);
+		// setAttrs(embedElem, emdedAttrs);
 		let game = new Game(canvasId);
 		game.start();
 	}
@@ -74,10 +74,10 @@ window.onload = function() {
 		e.preventDefault();
 		removeHomeItems(itemsToRemove);
 		makeTitleSmaller(heroWrap);
-		// Add canvas & canvas-floor to the HTML
+
 		DOMDisplay(canvasWrap, 'canvas', 'canvas');
 		DOMDisplay(canvasWrap, 'div', 'canvas-floor');
-		DOMDisplay(container, 'embed', 'music');
+		// DOMDisplay(container, 'embed', 'music');
 		createNewGame();
 	});
 }
