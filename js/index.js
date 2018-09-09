@@ -4,11 +4,13 @@ window.onload = function() {
 	let homeCharacter = document.getElementById('hero-character');
 	let heroWrap = document.getElementById('hero-wrap');
 	let canvasWrap = document.getElementById('canvas-wrap');
+	let body = this.document.getElementById('body');
 
 	let itemsToRemove = [btnStart, homeCharacter];
 	
 	let canvasId = 'canvas';
 	let canvasFloorId = 'canvas-floor';
+	let embedId = 'music';
 	let canvasWidth = window.innerWidth;
 	let canvasHeight = window.innerHeight * 0.85; //canvas-floor: * 0.15
 
@@ -19,6 +21,14 @@ window.onload = function() {
 	}
 	let canvasFloorAttrs = {
 		class: 'canvas-floor',
+	}
+
+	let emdedAttrs = {
+		src: 'sounds/on-the-road-again-willie-nelson.mp3',
+		autostart: 'true',
+		loop: 'true',
+		width: '2',
+		height: '0'
 	}
 
 	let removeHomeItems = (items) => {
@@ -38,9 +48,8 @@ window.onload = function() {
 		return element;
 	}
 
-	let DOMDisplay = (parent) => {
-		parent.appendChild(createElem('canvas', 'canvas'));
-		parent.appendChild(createElem('div', 'canvas-floor'));
+	let DOMDisplay = (parent, type, id) => {
+		parent.appendChild(createElem(type, id));
 	}
 
 	let setAttrs = (elem, attrs) => {
@@ -53,9 +62,10 @@ window.onload = function() {
 	let createNewGame = () => {
 		let canvasElem = document.getElementById(canvasId);
 		let canvasFloorElem = document.getElementById(canvasFloorId);
+		let embedElem = document.getElementById(embedId);
 		setAttrs(canvasElem, canvasAttrs);
 		setAttrs(canvasFloorElem, canvasFloorAttrs);
-
+		setAttrs(embedElem, emdedAttrs);
 		let game = new Game(canvasId);
 		game.start();
 	}
@@ -65,7 +75,9 @@ window.onload = function() {
 		removeHomeItems(itemsToRemove);
 		makeTitleSmaller(heroWrap);
 		// Add canvas & canvas-floor to the HTML
-		DOMDisplay(canvasWrap);
+		DOMDisplay(canvasWrap, 'canvas', 'canvas');
+		DOMDisplay(canvasWrap, 'div', 'canvas-floor');
+		DOMDisplay(container, 'embed', 'music');
 		createNewGame();
 	});
 }

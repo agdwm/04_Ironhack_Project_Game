@@ -30,13 +30,8 @@ function Player(game) {
 		39: 'right'
 	}
 
-	// this.keys = {
-	// 	'left': false,
-	// 	'top': false,
-	// 	'right': false
-	// }
+	this.GRAVITY = 0.4;
 	this.keys = this.trackKeys();
-	//this.setListeners();
 }
 
 
@@ -62,15 +57,6 @@ Player.prototype.trackKeys = function () {
 	return pressedKeys;
 }
 
-Player.prototype.setListeners = function () {
-	document.onkeyup = (e) => {
-		e.preventDefault();
-		if (event.keyCode == this.ARROW_CODES[37]) {
-			this.img.src = this.imgRight;
-		}
-	}
-}
-
 Player.prototype.move = function () {
 	this.moveX();
 	this.moveY();
@@ -79,11 +65,8 @@ Player.prototype.move = function () {
 Player.prototype.moveX = function () {
 
 	if (this.keys.right) {
-		
 		this.img.src = this.imgRight;
-		
 		if(!this.isJumping) this.animateImg();
-
 		if(this.x + this.w >= this.game.canvas.width){
 			this.x += 0;
 		}else{
@@ -92,9 +75,7 @@ Player.prototype.moveX = function () {
 	}
 
 	if (this.keys.left) {
-	
 		this.img.src = this.imgLeft;
-
 		if(!this.isJumping)	this.animateImg();
 		if(this.x <= this.game.canvas.x){
 			this.x += 0;
@@ -102,17 +83,15 @@ Player.prototype.moveX = function () {
 			this.x -= 5;
 		}
 	}
+
 	if (this.keys.top && !this.isJumping) {
 		this.y -= 70;
 		this.vy -= 20;
 		this.isJumping = true;
 	}
-
 }
 
 Player.prototype.moveY = function () {
-	// Aumenta la velocidad en el eje y.
-	var gravity = 0.4;
 
 	// solo salta cuando el personaje está en el suelo
 	if (this.y >= this.y0) {
@@ -120,11 +99,10 @@ Player.prototype.moveY = function () {
 		this.y = this.y0;
 		this.isJumping = false;
 	} else {
-		this.vy += gravity;
+		this.vy += this.GRAVITY;
 		this.y += this.vy;
 	}
 }
-
 
 Player.prototype.draw = function () {
 	//context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
