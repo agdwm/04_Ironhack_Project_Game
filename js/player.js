@@ -20,8 +20,9 @@ function Player(game) {
 	this.img.frameIndexW = 0;
 	this.img.frameIndexH = 0;
 
-	this.dx = 0;
-	this.dy =
+	this.dx = 2;
+	this.vy = 1;
+	this.isJumping = false;
 
 	this.ARROW_CODES = {
 		37: 'left',
@@ -29,7 +30,13 @@ function Player(game) {
 		39: 'right'
 	}
 
+	// this.keys = {
+	// 	'left': false,
+	// 	'top': false,
+	// 	'right': false
+	// }
 	this.keys = this.trackKeys();
+	//this.setListeners();
 }
 
 
@@ -55,25 +62,57 @@ Player.prototype.trackKeys = function () {
 	return pressedKeys;
 }
 
+Player.prototype.setListeners = function () {
+	document.onkeyup = (e) => {
+		e.preventDefault();
+		if (event.keyCode == this.ARROW_CODES[37]) {
+			this.img.src = this.imgRight;
+		}
+	}
+}
+
 Player.prototype.move = function () {
 	this.moveX();
 	this.moveY();
 }
 
 Player.prototype.moveX = function () {
-	if (this.keys.left) {
-		this.img.src = this.imgLeft;
-	} else if (this.keys.right) {
+
+	if (this.keys.right) {
+		this.x += 5;
 		this.img.src = this.imgRight;
-	} else {
-		this.img.src = this.imgFront;
+		
+		if(!this.isJumping) this.animateImg();
 	}
-	this.animateImg();
+	if (this.keys.left) {
+		this.x -= 5;
+		this.img.src = this.imgLeft;
+
+		if(!this.isJumping)	this.animateImg();
+	}
+
+	if (this.keys.top && !this.isJumping) {
+		this.y -= 70;
+		this.vy -= 20;
+		this.isJumping = true;
+	}
 }
 
 Player.prototype.moveY = function () {
+	// Aumenta la velocidad en el eje y.
+	var gravity = 0.4;
 
+	// solo salta cuando el personaje está en el suelo
+	if (this.y >= this.y0) {
+		this.vy = 1;
+		this.y = this.y0;
+		this.isJumping = false;
+	} else {
+		this.vy += gravity;
+		this.y += this.vy;
+	}
 }
+
 
 Player.prototype.draw = function () {
 	//context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
