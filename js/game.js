@@ -50,11 +50,11 @@ Game.prototype.start = function () {
 			}
 		}
 
-		//this.isBurgerCollisionPlayer();
+		this.isBurgerCollisionObstacle();
+		this.isBurgerCollisionPlayer();
 
 		this.moveAll();
 		this.draw();
-
 	}.bind(this), 1000 / this.fps);
 }
 
@@ -84,7 +84,6 @@ Game.prototype.generateBurgers = function () {
 }
 
 Game.prototype.isBurgerCollisionPlayer = function () {
-
 	this.burgers.forEach(function (burger, index) {
 		if (this.player.x + this.player.w > burger.x && burger.x + burger.w > this.player.x &&
 			this.player.y + this.player.h > burger.y && burger.y + burger.h > this.player.y) {
@@ -92,6 +91,18 @@ Game.prototype.isBurgerCollisionPlayer = function () {
 				this.player.grow();
 				return true;
 		}
+	}.bind(this));
+};
+
+Game.prototype.isBurgerCollisionObstacle = function () {
+	this.burgers.forEach(function (burger) {
+		this.obstaclesGenerated.some(function (obstacle) {
+			if (obstacle.x + obstacle.w >= burger.x && burger.x + burger.w >= obstacle.x &&
+				obstacle.y + obstacle.h >= burger.y && burger.y + burger.h >= obstacle.y) {
+					burger.changeDirection(true, true);
+					console.log('COLLISION');
+				}
+		}.bind(this));
 	}.bind(this));
 };
 

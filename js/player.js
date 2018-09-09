@@ -28,6 +28,7 @@ function Player(game) {
 	this.isJumping = false;
 	this.maxLives = 4;
 
+
 	this.ARROW_CODES = {
 		37: 'left',
 		38: 'top',
@@ -78,23 +79,26 @@ Player.prototype.draw = function () {
 	);
 }
 
-Player.prototype.animateImg = function (status) {
+Player.prototype.animateImg = function () {
 	// It changes the frame.  The larger the module, the slower the character moves
-	if (status && status === 'death') {
-		this.img.src = this.characterFront;
-		this.img.frameIndexH = 0;
-		this.img.frameIndexW = 1;
-	} else {
-		if (this.game.framesCounter % 5 === 0) {
-			if (this.keys.left || this.keys.right) {
-				this.img.frameIndexW += 1;
-				if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
-			} else {
-				this.img.frameIndexW = 0;
-			}
+	if (this.game.framesCounter % 5 === 0) {
+		if (this.keys.left || this.keys.right) {
+			this.img.frameIndexW += 1;
+			if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
+		} else {
+			this.img.frameIndexW = 0;
 		}
 	}
 };
+
+Player.prototype.animateDeath = function () {
+	this.img.src = this.imgFront;
+	this.img.frameIndexH = 0;
+	this.img.frameIndexW = 1;
+	lost.play();
+	
+
+}
 
 Player.prototype.move = function () {
 	//check if collision when the character is not moving
@@ -104,7 +108,6 @@ Player.prototype.move = function () {
 	this.moveX();
 	this.moveY();
 }
-
 
 Player.prototype.moveX = function () {
 
@@ -131,7 +134,7 @@ Player.prototype.moveX = function () {
 		} else {
 			this.x += 0;
 		}
-	}else if (this.keys.left) { 
+	} else if (this.keys.left) {
 		this.img.src = this.imgLeft;
 
 		if (!this.isJumping) this.animateImg();
@@ -200,13 +203,19 @@ Player.prototype.moveY = function () {
 	}
 }
 
-Player.prototype.grow = function(){
+Player.prototype.grow = function () {
 	this.weight++;
 
 	if (this.weight <= this.maxLives) {
 		this.img.frameIndexH = this.weight;
+		grow.pause();
+		grow.play();
 	} else {
-		this.animateImg('death');
-		this.game.gameOver();
+		console.log('WEIGHT', this.weight);
+		this.animateDeath();
+
+		setTimeout(function () {
+			this.game.gameOver();
+		}.bind(this), 1000);
 	}
 }
