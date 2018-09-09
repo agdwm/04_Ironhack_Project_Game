@@ -33,7 +33,7 @@ function Player(game) {
 		39: 'right'
 	}
 
-	this.GRAVITY = 0.4;
+	this.GRAVITY = 0.5;
 	this.keys = this.trackKeys();
 
 	this.currentObstacle = null;
@@ -126,12 +126,6 @@ Player.prototype.moveX = function () {
 			}
 		}
 	}
-
-	if (this.keys.top && !this.isJumping) {
-		this.y -= 70;
-		this.vy -= 20;
-		this.isJumping = true;
-	}
 }
 
 Player.prototype.isObstacle = function () {
@@ -142,20 +136,13 @@ Player.prototype.isObstacle = function () {
 			return true
 		}
 
-
-		// if (this.isJumping){
-		// 	this.vy = 0;
-		// 	this.y = obstacle.y - this.h;
-		// 	this.isJumping = false;
-		// }
-
 	}.bind(this));
 }
 
 Player.prototype.moveY = function () {
 
 	// solo salta cuando el personaje está en el suelo
-	if (this.y >= this.y0) {
+	if (this.y >= this.y0) { //SUELO
 		this.vy = 1;
 		this.y = this.y0;
 		this.isJumping = false;
@@ -163,7 +150,29 @@ Player.prototype.moveY = function () {
 		this.vy += this.GRAVITY;
 		this.y += this.vy;
 	}
+
+	if (this.keys.top && !this.isJumping) {
+		this.y -= 70;
+		this.vy -= 20;
+		this.isJumping = true;
+	}
+
+	if (this.isObstacle() && !(this.y >= this.y0)) {
+		let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
+		let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
+		let currentObstacleY = this.game.obstaclesGenerated[this.currentObstacle].y;
+
+
+		if (this.y + this.h >= currentObstacleY && this.x + this.w > currentObstacleX && currentObstacleX + currentObstacleW > this.x ) {
+			this.vy = 0;
+			this.isJumping = false;
+			this.y = currentObstacleY - this.h;
+			lastObstacleY = currentObstacleY;
+			this.isJumping = false;
+		}
+	}
 }
+
 
 Player.prototype.draw = function () {
 	//context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
