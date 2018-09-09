@@ -21,6 +21,9 @@ function Player(game) {
 	this.img.frameIndexH = 0;
 
 	this.dx = 2;
+	this.dxStop = 0;
+	this.dxStart = 5;
+
 	this.vy = 1;
 	this.isJumping = false;
 
@@ -32,6 +35,8 @@ function Player(game) {
 
 	this.GRAVITY = 0.4;
 	this.keys = this.trackKeys();
+
+	this.currentObstacle = null;
 }
 
 
@@ -58,6 +63,10 @@ Player.prototype.trackKeys = function () {
 }
 
 Player.prototype.move = function () {
+	//this.isObstacle();
+	if (this.isObstacle()) {
+		this.x += this.dxStart * -1;
+	}
 	this.moveX();
 	this.moveY();
 }
@@ -66,21 +75,29 @@ Player.prototype.moveX = function () {
 
 	if (this.keys.right) {
 		this.img.src = this.imgRight;
-		if(!this.isJumping) this.animateImg();
-		if(this.x + this.w >= this.game.canvas.width){
+		if (!this.isJumping) this.animateImg();
+
+		if (this.x + this.w >= this.game.canvas.width) { //OUT OF CANVAS
 			this.x += 0;
-		}else{
-			this.x += 5;
+		} else {
+			if (this.isObstacle()) {
+				this.x += this.dxStart * -1;
+			}
+			this.x += this.dxStart;
 		}
 	}
 
 	if (this.keys.left) {
 		this.img.src = this.imgLeft;
-		if(!this.isJumping)	this.animateImg();
-		if(this.x <= this.game.canvas.x){
+		if (!this.isJumping) this.animateImg();
+		if (this.x <= this.game.canvas.x) { //OUT OF CANVAS
 			this.x += 0;
-		}else{
-			this.x -= 5;
+		} else {
+			if (this.isObstacle()) {
+				let obstacleWidth = this.game.obstaclesGenerated[this.currentObstacle].x + this.game.obstaclesGenerated[this.currentObstacle].w;
+				this.x = obstacleWidth;
+				}
+			this.x += this.dxStart * -1;
 		}
 	}
 
@@ -89,6 +106,24 @@ Player.prototype.moveX = function () {
 		this.vy -= 20;
 		this.isJumping = true;
 	}
+}
+
+Player.prototype.isObstacle = function () {
+	return this.game.obstaclesGenerated.some(function (obstacle, index) {
+		if (this.x + this.w > obstacle.x && obstacle.x + obstacle.w > this.x &&
+			this.y + this.h > obstacle.y && obstacle.y + obstacle.h > this.y && this.vy > 0) {
+				this.currentObstacle = index;
+				return true
+			}
+				
+				
+			// if (this.isJumping){
+			// 	this.vy = 0;
+			// 	this.y = obstacle.y - this.h;
+			// 	this.isJumping = false;
+			// }
+		
+	}.bind(this));
 }
 
 Player.prototype.moveY = function () {
