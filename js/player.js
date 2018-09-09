@@ -63,7 +63,7 @@ Player.prototype.trackKeys = function () {
 }
 
 Player.prototype.move = function () {
-	//this.isObstacle();
+
 	if (this.isObstacle()) {
 		this.x += this.dxStart * -1;
 	}
@@ -81,23 +81,49 @@ Player.prototype.moveX = function () {
 			this.x += 0;
 		} else {
 			if (this.isObstacle()) {
-				this.x += this.dxStart * -1;
-			}
-			this.x += this.dxStart;
-		}
-	}
+				let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
+				let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
 
-	if (this.keys.left) {
+				if (this.x + this.w >= currentObstacleX) { //collision obstacle left OK!! :)
+					this.x += this.dxStart * -1;
+				} else if (this.x <= currentObstacleX + currentObstacleW) {
+					this.x += 5;
+				}
+			} else {
+				this.x += 5
+			}
+		}
+	} else if (this.keys.left) {
 		this.img.src = this.imgLeft;
+
 		if (!this.isJumping) this.animateImg();
+
 		if (this.x <= this.game.canvas.x) { //OUT OF CANVAS
 			this.x += 0;
 		} else {
 			if (this.isObstacle()) {
-				let obstacleWidth = this.game.obstaclesGenerated[this.currentObstacle].x + this.game.obstaclesGenerated[this.currentObstacle].w;
-				this.x = obstacleWidth;
+				let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
+				let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
+
+				if (this.x + this.w >= currentObstacleX) { //collision obstacle left OK!! :)
+					this.x = this.game.obstaclesGenerated[this.currentObstacle].x + this.game.obstaclesGenerated[this.currentObstacle].w;
+
+				} else if (this.x <= currentObstacleX + currentObstacleW) { //collision obstacle right OK!! :)
+					this.x += this.dxStart * -1;
 				}
-			this.x += this.dxStart * -1;
+			} else {
+				this.x += this.dxStart * -1;
+			}
+		}
+	} else {
+		if (this.isObstacle()) {
+			let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
+			let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
+			if (this.x + this.w >= currentObstacleX) {
+				this.x += this.dxStart * -1;
+			} else if (this.x <= currentObstacleX + currentObstacleW) {
+				this.x += this.dxStart * -1;
+			}
 		}
 	}
 
@@ -112,17 +138,17 @@ Player.prototype.isObstacle = function () {
 	return this.game.obstaclesGenerated.some(function (obstacle, index) {
 		if (this.x + this.w > obstacle.x && obstacle.x + obstacle.w > this.x &&
 			this.y + this.h > obstacle.y && obstacle.y + obstacle.h > this.y && this.vy > 0) {
-				this.currentObstacle = index;
-				return true
-			}
-				
-				
-			// if (this.isJumping){
-			// 	this.vy = 0;
-			// 	this.y = obstacle.y - this.h;
-			// 	this.isJumping = false;
-			// }
-		
+			this.currentObstacle = index;
+			return true
+		}
+
+
+		// if (this.isJumping){
+		// 	this.vy = 0;
+		// 	this.y = obstacle.y - this.h;
+		// 	this.isJumping = false;
+		// }
+
 	}.bind(this));
 }
 
