@@ -16,11 +16,8 @@ Game.prototype.reset = function() {
 	this.framesCounter = 0;
 	this.obstaclesCounter = 0;
 	this.limitOfObstacles = 15;
-	this.obstacles = ['obstacle1', 'obstacle2', 'obstacle3'];
+	this.obstacles = ['1', '2', '3']; //types of obstacles
 	this.obstaclesGenerated = [];
-	this.obstaclesFinal = [];
-
-	this.generateObstacle();
 }
 
 Game.prototype.start = function() {
