@@ -8,7 +8,7 @@ function Background(game) {
 	this.x = 0;
 	this.y = this.game.canvas.height - this.h;
 
-	this.dx = 2;
+	this.dx = 3;
 }
 
 Background.prototype.draw = function () {

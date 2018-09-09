@@ -20,7 +20,7 @@ function Player(game) {
 	this.img.frameIndexW = 0;
 	this.img.frameIndexH = 0;
 
-	this.dx = 2;
+	this.dx = 3;
 	this.dxStop = 0;
 	this.dxStart = 5;
 
@@ -63,7 +63,7 @@ Player.prototype.trackKeys = function () {
 }
 
 Player.prototype.move = function () {
-
+	//check if collision when the character is not moving
 	if (this.isObstacle()) {
 		this.x += this.dxStart * -1;
 	}
@@ -71,29 +71,34 @@ Player.prototype.move = function () {
 	this.moveY();
 }
 
+
 Player.prototype.moveX = function () {
 
 	if (this.keys.right) {
 		this.img.src = this.imgRight;
-		if (!this.isJumping) this.animateImg();
 
-		if (this.x + this.w >= this.game.canvas.width) { //OUT OF CANVAS
-			this.x += 0;
-		} else {
+		if (!this.isJumping) {
+			this.animateImg();
+		}
+
+		if (this.x + this.w < this.game.canvas.width) { //INSIDE OF CANVAS
 			if (this.isObstacle()) {
+				console.log('COLISION');
 				let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
 				let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
 
-				if (this.x + this.w >= currentObstacleX) { //collision obstacle left OK!! :)
+				if (this.x + this.w >= currentObstacleX && currentObstacleX + currentObstacleW > this.x) { //collision obstacle left OK!! :)
 					this.x += this.dxStart * -1;
-				} else if (this.x <= currentObstacleX + currentObstacleW) {
-					this.x += 5;
+				} else if (this.x <= currentObstacleX + currentObstacleW && this.x + this.w > currentObstacleX && currentObstacleW) {
+					this.x += this.dxStart;
 				}
 			} else {
-				this.x += 5
+				this.x += this.dxStart;
 			}
+		} else {
+			this.x += 0;
 		}
-	} else if (this.keys.left) {
+	}else if (this.keys.left) { 
 		this.img.src = this.imgLeft;
 
 		if (!this.isJumping) this.animateImg();
@@ -105,23 +110,13 @@ Player.prototype.moveX = function () {
 				let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
 				let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
 
-				if (this.x + this.w >= currentObstacleX) { //collision obstacle left OK!! :)
+				if (this.x + this.w >= currentObstacleX && currentObstacleX + currentObstacleW > this.x) { //collision obstacle left OK!! :)
 					this.x = this.game.obstaclesGenerated[this.currentObstacle].x + this.game.obstaclesGenerated[this.currentObstacle].w;
-
-				} else if (this.x <= currentObstacleX + currentObstacleW) { //collision obstacle right OK!! :)
-					this.x += this.dxStart * -1;
+				}
+				if (this.x <= currentObstacleX + currentObstacleW && this.x + this.w > currentObstacleX) {
+					this.x += this.dxStart;
 				}
 			} else {
-				this.x += this.dxStart * -1;
-			}
-		}
-	} else {
-		if (this.isObstacle()) {
-			let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
-			let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
-			if (this.x + this.w >= currentObstacleX) {
-				this.x += this.dxStart * -1;
-			} else if (this.x <= currentObstacleX + currentObstacleW) {
 				this.x += this.dxStart * -1;
 			}
 		}
@@ -162,8 +157,7 @@ Player.prototype.moveY = function () {
 		let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
 		let currentObstacleY = this.game.obstaclesGenerated[this.currentObstacle].y;
 
-
-		if (this.y + this.h >= currentObstacleY && this.x + this.w > currentObstacleX && currentObstacleX + currentObstacleW > this.x ) {
+		if (this.y + this.h >= currentObstacleY && this.x + this.w > currentObstacleX && currentObstacleX + currentObstacleW > this.x) {
 			this.vy = 0;
 			this.isJumping = false;
 			this.y = currentObstacleY - this.h;
