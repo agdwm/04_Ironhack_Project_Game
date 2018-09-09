@@ -7,8 +7,6 @@ function Obstacle (game, type){
 	this.type = type;
 	this.dx = 2;
 
-	this.img.frameIndex = 0;
-
 	this.switchObstacle();
 }
 
@@ -16,8 +14,8 @@ Obstacle.prototype.draw = function() {
 
 	this.game.ctx.drawImage(
 		this.img,
-		this.img.frameIndex * Math.floor(this.img.width),
-		this.img.frameIndex * Math.floor(this.img.height),
+		0,
+		0,
 		this.img.width,
 		this.img.height,
 		this.x,
