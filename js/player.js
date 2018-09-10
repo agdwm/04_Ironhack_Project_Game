@@ -1,11 +1,12 @@
 function Player(game) {
 	this.game = game;
 
+	this.img = new Image();
+	
 	this.imgFront = 'images/cartmanFront.png';
 	this.imgLeft = 'images/cartmanLeft.png';
 	this.imgRight = 'images/cartmanRight.png';
-
-	this.img = new Image();
+	
 	this.img.src = this.imgFront;
 
 	this.w = 195;
@@ -95,9 +96,6 @@ Player.prototype.animateDeath = function () {
 	this.img.src = this.imgFront;
 	this.img.frameIndexH = 0;
 	this.img.frameIndexW = 1;
-	lost.play();
-	
-
 }
 
 Player.prototype.move = function () {

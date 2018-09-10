@@ -12,6 +12,7 @@ Game.prototype.reset = function () {
 	this.background = new Background(this);
 	this.player = new Player(this);
 	this.obstacle = new Obstacle(this);
+	this.humorist = new Humorist(this);
 
 	this.framesCounter = 0;
 
@@ -52,6 +53,7 @@ Game.prototype.start = function () {
 
 		this.isBurgerCollisionObstacle();
 		this.isBurgerCollisionPlayer();
+		this.isPlayerCollisionHumorist();
 
 		this.moveAll();
 		this.draw();
@@ -68,7 +70,15 @@ Game.prototype.stop = function () {
 
 Game.prototype.gameOver = function () {
 	this.stop();
+	lost.play();
+	setTimeout(function () {
+		location.reload();
+	}, 3000);
+};
 
+Game.prototype.gameWin = function () {
+	this.stop();
+	win.play();
 	setTimeout(function () {
 		location.reload();
 	}, 3000);
@@ -106,6 +116,14 @@ Game.prototype.isBurgerCollisionObstacle = function () {
 	}.bind(this));
 };
 
+Game.prototype.isPlayerCollisionHumorist = function () {
+	if (this.player.x + this.player.w > this.humorist.x && this.humorist.x + this.humorist.w > this.player.x &&
+		this.player.y + this.player.h > this.humorist.y && this.humorist.y + this.humorist.h > this.player.y) {
+			this.humorist.animateImg();
+			this.gameWin();
+			return true;
+	}
+};
 
 Game.prototype.draw = function () {
 	this.background.draw();
@@ -116,16 +134,20 @@ Game.prototype.draw = function () {
 	this.burgers.forEach(function (burger) {
 		burger.draw();
 	});
+	this.humorist.draw();
 }
 
 Game.prototype.moveAll = function () {
 	this.background.move();
 	this.player.move();
 
-	this.obstaclesGenerated.forEach(function (obstacle) {
+	this.obstaclesGenerated.forEach(function(obstacle) {
 		obstacle.move();
 	});
+
 	this.burgers.forEach(function (burger) {
 		burger.move();
 	});
+
+	this.humorist.move();
 }
