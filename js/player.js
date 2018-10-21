@@ -32,7 +32,7 @@ function Player(game) {
 
 	this.ARROW_CODES = {
 		37: 'left',
-		38: 'top',
+		32: 'space',
 		39: 'right'
 	}
 
@@ -180,7 +180,7 @@ Player.prototype.moveY = function () {
 		this.y += this.vy;
 	}
 
-	if (this.keys.top && !this.isJumping) {
+	if (this.keys.space && !this.isJumping) {
 		this.y -= 70;
 		this.vy -= 20;
 		this.isJumping = true;
