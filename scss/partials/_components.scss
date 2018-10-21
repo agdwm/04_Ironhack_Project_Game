@@ -70,3 +70,46 @@
 	right: 0;
 	background-color: $floor-color;
 }
+
+.score {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	display: none;
+
+	.icon-cartman {
+		color: #000;
+		font-size: 42px; 
+		padding-left: 4px;
+		padding-right: 4px;
+	}
+
+	&.active {
+		display: flex;
+		position: absolute;
+		right: 60px;
+		top: 30px;
+	}
+}
+
+
+//ICON FONTS
+.icon-cartman.hidden{
+	color: #46ADB6;
+}
+
+.icon-cartman:before {
+	content: "\e900";
+}
+
+.icon-kenny:before {
+	content: "\e901";
+}
+
+.icon-kyle:before {
+	content: "\e902";
+}
+
+.icon-stand:before {
+	content: "\e903";
+}

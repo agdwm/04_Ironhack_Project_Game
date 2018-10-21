@@ -11,8 +11,10 @@ window.onload = function() {
 	let canvasId = 'canvas';
 	let canvasFloorId = 'canvas-floor';
 	let embedId = 'music';
+	let scoreId = 'score';
 	let canvasWidth = window.innerWidth;
 	let canvasHeight = window.innerHeight * 0.85; //canvas-floor: * 0.15
+	var score = document.getElementById(scoreId);
 
 	let canvasAttrs = {
 		width: canvasWidth,
@@ -39,12 +41,12 @@ window.onload = function() {
 
 	let makeTitleSmaller = (hero) => {
 		hero.classList.add('small');
+		score.classList.add("active");
 	}
 
 	let createElem = (type, idName) => {
 		let element = document.createElement(type);
 		if (idName) element.id = idName;
-		console.log(element);
 		return element;
 	}
 
@@ -54,7 +56,7 @@ window.onload = function() {
 
 	let setAttrs = (elem, attrs) => {
 		for (let key in attrs) {
-			elem.setAttribute(key, attrs[key]);	
+			elem.setAttribute(key, attrs[key]);
 		}
 	}
 
@@ -62,10 +64,10 @@ window.onload = function() {
 	let createNewGame = () => {
 		let canvasElem = document.getElementById(canvasId);
 		let canvasFloorElem = document.getElementById(canvasFloorId);
-		let embedElem = document.getElementById(embedId);
+		//let embedElem = document.getElementById(embedId);
 		setAttrs(canvasElem, canvasAttrs);
 		setAttrs(canvasFloorElem, canvasFloorAttrs);
-		// setAttrs(embedElem, emdedAttrs);
+		//setAttrs(embedElem, emdedAttrs);
 		let game = new Game(canvasId);
 		game.start();
 	}
@@ -75,9 +77,9 @@ window.onload = function() {
 		removeHomeItems(itemsToRemove);
 		makeTitleSmaller(heroWrap);
 
-		DOMDisplay(canvasWrap, 'canvas', 'canvas');
-		DOMDisplay(canvasWrap, 'div', 'canvas-floor');
-		// DOMDisplay(container, 'embed', 'music');
+		DOMDisplay(canvasWrap, 'canvas', canvasId);
+		DOMDisplay(canvasWrap, 'div', canvasFloorId);
+		//DOMDisplay(container, 'embed', embedId);
 		createNewGame();
 	});
 }

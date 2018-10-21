@@ -12,7 +12,7 @@ Game.prototype.reset = function () {
 	this.background = new Background(this);
 	this.player = new Player(this);
 	this.obstacle = new Obstacle(this);
-	this.humorist = new Humorist(this);
+	//this.humorist = new Humorist(this);
 
 	this.framesCounter = 0;
 
@@ -23,8 +23,11 @@ Game.prototype.reset = function () {
 	this.limitOfObstacles = 15;
 	// Burgers
 	this.burgers = [];
-	this.limitOfBurgers = 8;
+	this.limitOfBurgers = 5;
 	this.counterBurgers = 0;
+	// Score
+	this.counterScore = 0;
+	this.scoreItems = document.getElementsByClassName("icon-cartman");
 }
 
 Game.prototype.start = function () {
@@ -53,7 +56,7 @@ Game.prototype.start = function () {
 
 		this.isBurgerCollisionObstacle();
 		this.isBurgerCollisionPlayer();
-		this.isPlayerCollisionHumorist();
+		//this.isPlayerCollisionHumorist();
 
 		this.moveAll();
 		this.draw();
@@ -67,6 +70,11 @@ Game.prototype.clear = function () {
 Game.prototype.stop = function () {
 	clearInterval(this.interval);
 };
+
+Game.prototype.changeScore = function () {
+	this.scoreItems[this.counterScore].classList.add('hidden');
+	this.counterScore++;
+}
 
 Game.prototype.gameOver = function () {
 	this.stop();
@@ -84,6 +92,7 @@ Game.prototype.gameWin = function () {
 	}, 3000);
 };
 
+
 Game.prototype.generateObstacle = function () {
 	let index = Math.floor(Math.random() * (this.obstacles.length - 1 + 1) + 1);
 	this.obstaclesGenerated.push(new Obstacle(this, index));
@@ -98,6 +107,7 @@ Game.prototype.isBurgerCollisionPlayer = function () {
 		if (this.player.x + this.player.w > burger.x && burger.x + burger.w > this.player.x &&
 			this.player.y + this.player.h > burger.y && burger.y + burger.h > this.player.y) {
 				this.burgers.splice(index, 1);
+				this.changeScore();
 				this.player.grow();
 				return true;
 		}
@@ -134,7 +144,7 @@ Game.prototype.draw = function () {
 	this.burgers.forEach(function (burger) {
 		burger.draw();
 	});
-	this.humorist.draw();
+	//this.humorist.draw();
 }
 
 Game.prototype.moveAll = function () {
@@ -149,5 +159,5 @@ Game.prototype.moveAll = function () {
 		burger.move();
 	});
 
-	this.humorist.move();
+	//this.humorist.move();
 }
