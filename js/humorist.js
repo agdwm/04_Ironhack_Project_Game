@@ -6,8 +6,7 @@ function Humorist(game) {
 
 	this.w = 288; //width of each frame
 	this.h = 300; //height of each frame
-	//this.x = 5500;
-	this.x = 500;
+	this.x = this.game.canvas.width - 320;
 	this.y = this.game.canvas.height - this.h ;
 
 	this.dX = 3;

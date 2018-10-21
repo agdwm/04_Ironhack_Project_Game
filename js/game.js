@@ -12,7 +12,7 @@ Game.prototype.reset = function () {
 	this.background = new Background(this);
 	this.player = new Player(this);
 	this.obstacle = new Obstacle(this);
-	//this.humorist = new Humorist(this);
+	this.humorist = new Humorist(this);
 
 	this.framesCounter = 0;
 
@@ -20,7 +20,7 @@ Game.prototype.reset = function () {
 	this.obstacles = ['1', '2', '3']; //types of obstacles
 	this.obstaclesGenerated = [];
 	this.counterObstacles = 0;
-	this.limitOfObstacles = 15;
+	this.limitOfObstacles = 10;
 	// Burgers
 	this.burgers = [];
 	this.limitOfBurgers = 5;
@@ -31,9 +31,11 @@ Game.prototype.reset = function () {
 }
 
 Game.prototype.start = function () {
-	this.interval = setInterval(function () {
-
+	const startTime = new Date().getTime();
+	
+	this.interval = setInterval(() => {
 		this.clear();
+		
 		this.framesCounter++;
 
 		if (this.framesCounter > 1000) {
@@ -49,18 +51,29 @@ Game.prototype.start = function () {
 
 		if (this.framesCounter % 300 === 0) {
 			if (this.counterBurgers < this.limitOfBurgers) {
-				this.generateBurgers();
+				//this.generateBurgers();
 				this.counterBurgers++;
 			}
 		}
 
-		this.isBurgerCollisionObstacle();
+		//this.isBurgerCollisionObstacle();
 		this.isBurgerCollisionPlayer();
 		//this.isPlayerCollisionHumorist();
 
 		this.moveAll();
 		this.draw();
-	}.bind(this), 1000 / this.fps);
+
+		//when humorist appearing, the obstacles and the background dont't move
+		if (new Date().getTime() - startTime > 60000) {
+			this.humorist.draw();
+		} else {
+			this.background.move();
+			this.obstaclesGenerated.forEach(function(obstacle) {
+				obstacle.move();
+			});
+		}
+		
+	}, 1000 / this.fps);
 }
 
 Game.prototype.clear = function () {
@@ -138,26 +151,27 @@ Game.prototype.isPlayerCollisionHumorist = function () {
 Game.prototype.draw = function () {
 	this.background.draw();
 	this.player.draw();
+
 	this.obstaclesGenerated.forEach(function (obstacle) {
 		obstacle.draw();
 	});
-	this.burgers.forEach(function (burger) {
-		burger.draw();
-	});
+	// this.burgers.forEach(function (burger) {
+	// 	burger.draw();
+	// });
 	//this.humorist.draw();
 }
 
 Game.prototype.moveAll = function () {
-	this.background.move();
+	//this.background.move();
 	this.player.move();
 
-	this.obstaclesGenerated.forEach(function(obstacle) {
-		obstacle.move();
-	});
+	// this.obstaclesGenerated.forEach(function(obstacle) {
+	// 	obstacle.move();
+	// });
 
-	this.burgers.forEach(function (burger) {
-		burger.move();
-	});
+	// this.burgers.forEach(function (burger) {
+	// 	burger.move();
+	// });
 
 	//this.humorist.move();
 }
