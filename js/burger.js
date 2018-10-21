@@ -5,8 +5,8 @@ function Burger (game) {
 	//this.x = 0;
 	this.y = 0;
 
-	this.speedX = 4;
-	this.speedY = 4;
+	this.speedX = 3;
+	this.speedY = 3;
 
 	this.img = new Image();
 	this.img.src = 'images/burger.png';

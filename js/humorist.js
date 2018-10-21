@@ -6,13 +6,13 @@ function Humorist(game) {
 
 	this.w = 288; //width of each frame
 	this.h = 300; //height of each frame
-	this.x = this.game.canvas.width - 320;
+	this.x = this.game.canvas.width;
 	this.y = this.game.canvas.height - this.h ;
 
-	this.dX = 3;
+	this.dx = 4;
 
-	this.img.framesW = 2;
-	this.img.frameIndex = 0;
+ 	this.img.framesW = 2; 
+ 	this.img.frameIndex = 0;
 	this.img.frameIndexW = 0;
 }
 
@@ -35,5 +35,5 @@ Humorist.prototype.animateImg = function(){
 }
 
 Humorist.prototype.move = function () {
-	//this.x -= this.dx;
+	this.x -= this.dx;
 };
