@@ -7,7 +7,7 @@ function Player(game) {
 	this.imgLeft = 'images/cartmanLeft.png';
 	this.imgRight = 'images/cartmanRight.png';
 	
-	this.img.src = this.imgFront;
+	this.img.src = this.imgRight;
 
 	this.w = 195;
 	this.h = 150;
@@ -83,12 +83,10 @@ Player.prototype.draw = function () {
 Player.prototype.animateImg = function () {
 	// It changes the frame.  The larger the module, the slower the character moves
 	if (this.game.framesCounter % 5 === 0) {
-		if (this.keys.left || this.keys.right) {
+		if (!this.isJumping) {
 			this.img.frameIndexW += 1;
 			if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
-		} else {
-			this.img.frameIndexW = 0;
-		}
+		} 
 	}
 };
 
@@ -100,21 +98,19 @@ Player.prototype.animateDeath = function () {
 
 Player.prototype.move = function () {
 	//check if collision when the character is not moving
-	if (this.isObstacle()) {
-		this.x += this.dxStart * -1;
-	}
+	// if (this.isObstacle()) {
+	// 	this.x += this.dxStart * -1;
+	// }
+	this.animateImg();
 	this.moveX();
 	this.moveY();
 }
 
 Player.prototype.moveX = function () {
-
+	this.img.src = this.imgRight;
+	
+	
 	if (this.keys.right) {
-		this.img.src = this.imgRight;
-
-		if (!this.isJumping) {
-			this.animateImg();
-		}
 
 		if (this.x + this.w < this.game.canvas.width) { //INSIDE OF CANVAS
 			if (this.isObstacle()) {
@@ -134,8 +130,6 @@ Player.prototype.moveX = function () {
 		}
 	} else if (this.keys.left) {
 		this.img.src = this.imgLeft;
-
-		if (!this.isJumping) this.animateImg();
 
 		if (this.x <= this.game.canvas.x) { //OUT OF CANVAS
 			this.x += 0;
@@ -178,6 +172,7 @@ Player.prototype.moveY = function () {
 	} else {
 		this.vy += this.GRAVITY;
 		this.y += this.vy;
+
 	}
 
 	if (this.keys.space && !this.isJumping) {
