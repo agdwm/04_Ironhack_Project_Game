@@ -32,7 +32,6 @@ Game.prototype.reset = function () {
 
 Game.prototype.start = function () {
 	
-	
 	this.interval = setInterval(() => {
 		this.clear();
 		
@@ -58,7 +57,8 @@ Game.prototype.start = function () {
 
 		//this.isBurgerCollisionObstacle();
 		this.isBurgerCollisionPlayer();
-		//this.isPlayerCollisionHumorist();
+		this.isPlayerCollisionHumorist();
+		//this.isPlayerOutOfWindow();
 
 		this.draw();
 		this.moveAll();
@@ -105,6 +105,12 @@ Game.prototype.generateBurgers = function () {
 	this.burgers.push(new Burger(this));
 }
 
+Game.prototype.isPlayerOutOfWindow = function() {
+	if (this.player.x <= -(this.player.w)) {
+		this.gameOver();
+	}
+}
+
 Game.prototype.isBurgerCollisionPlayer = function () {
 	this.burgers.forEach(function (burger, index) {
 		if (this.player.x + this.player.w > burger.x && burger.x + burger.w > this.player.x &&
@@ -139,7 +145,6 @@ Game.prototype.isPlayerCollisionHumorist = function () {
 };
 
 Game.prototype.moveAll = function () {
-	
 	this.player.move();
 
 	if (new Date().getTime() - this.startTime < 60000) {
