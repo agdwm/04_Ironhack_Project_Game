@@ -135,6 +135,9 @@ body {
   border: 4px solid #000;
   margin: 0 auto;
   display: block; }
+  .btn-start:hover {
+    border: 4px solid #cd3c4d;
+    color: #cd3c4d; }
 
 .canvas-wrap {
   position: absolute;
@@ -167,6 +170,28 @@ body {
     display: flex;
     position: absolute;
     right: 60px;
+    top: 30px; }
+
+.handleGame {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  display: none; }
+  .handleGame button {
+    border: 2px solid black;
+    padding: 10px 15px;
+    font-family: 'Londrina Solid', cursive;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 1rem;
+    outline: none; }
+    .handleGame button:hover {
+      border: 2px solid #cd3c4d;
+      color: #cd3c4d; }
+  .handleGame.active {
+    display: flex;
+    position: absolute;
+    left: 60px;
     top: 30px; }
 
 .icon-cartman.hidden {

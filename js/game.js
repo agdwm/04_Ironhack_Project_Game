@@ -4,6 +4,8 @@ function Game(canvasId) {
 	this.fps = 60;
 	this.startTime = new Date().getTime();
 	this.canvas.x = 0;
+	this.btnPause = document.getElementById('btn-pause');
+	this.btnRestart = document.getElementById('btn-restart');
 
 	this.reset();
 }
@@ -64,6 +66,11 @@ Game.prototype.start = function () {
 		this.moveAll();
 
 	}, 1000 / this.fps);
+
+	this.btnRestart.addEventListener('click', function(e) {
+		e.preventDefault();
+		this.restart();
+	}.bind(this));
 }
 
 Game.prototype.clear = function () {
@@ -77,6 +84,13 @@ Game.prototype.stop = function () {
 Game.prototype.changeScore = function () {
 	this.scoreItems[this.counterScore].classList.add('hidden');
 	this.counterScore++;
+}
+
+Game.prototype.restart = function() {
+	this.stop();
+	setTimeout(function () {
+		location.reload();
+	}, 3000);		
 }
 
 Game.prototype.gameOver = function () {
@@ -94,7 +108,6 @@ Game.prototype.gameWin = function () {
 		location.reload();
 	}, 3000);
 };
-
 
 Game.prototype.generateObstacle = function () {
 	let index = Math.floor(Math.random() * (this.obstacles.length - 1 + 1) + 1);
