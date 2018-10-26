@@ -21,8 +21,7 @@ function Player(game) {
 	this.img.frameIndexW = 0;
 	this.img.frameIndexH = 0;
 
-	this.dx = 5;
-
+	this.dx = 4;
 
 	this.vy = 1;
 	this.isJumping = false;
@@ -35,7 +34,7 @@ function Player(game) {
 		39: 'right'
 	}
 
-	this.GRAVITY = 0.5;
+	this.GRAVITY = 0.7;
 	this.keys = this.trackKeys();
 
 	this.currentObstacle = null;
@@ -123,11 +122,10 @@ Player.prototype.moveX = function () {
 		if (this.x < this.game.canvas.x) { //OUT
 			this.x += 0;
 		} else { //INSIDE
+			this.x += this.dx * -1.8;
 			if (this.isObstacle()) {
 				this.handleHorCollision();
-			} else {
-				this.x += this.dx * -1.8;
-			}
+			} 
 		}
 	} else { //DERECHA
 		this.img.src = this.imgRight;
@@ -165,36 +163,45 @@ Player.prototype.isObstacle = function () {
 	}.bind(this));
 }
 
-Player.prototype.moveY = function () {
+Player.prototype.isOnTheFloor = function() {
+	if (this.y >= this.y0) {
+		return true;
+	}
+	return false;
+}
 
-	// solo salta cuando el personaje está en el suelo
-	if (this.y >= this.y0) { //SUELO
+Player.prototype.moveY = function () {
+	if (this.isOnTheFloor()) {		
 		this.vy = 1;
 		this.y = this.y0;
 		this.isJumping = false;
-	} else {
+	} else {		
 		this.vy += this.GRAVITY;
 		this.y += this.vy;
-
 	}
 
 	if (this.keys.top && !this.isJumping) {
 		this.y -= 70;
-		this.vy -= 20;
+		this.vy -= 25;
 		this.isJumping = true;
 	}
 
-	if (this.isObstacle() && !(this.y >= this.y0)) {
+	if (this.isObstacle() && !this.isOnTheFloor()) {
 		let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
 		let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
 		let currentObstacleY = this.game.obstaclesGenerated[this.currentObstacle].y;
-
-		if (this.y + this.h >= currentObstacleY && this.x + this.w > currentObstacleX && currentObstacleX + currentObstacleW > this.x) {
+		let currentObstacleH = this.game.obstaclesGenerated[this.currentObstacle].h;
+		
+		if (this.y + this.h > currentObstacleY && this.y + this.h < currentObstacleY + currentObstacleH && 
+			this.x + this.w > currentObstacleX && this.x < currentObstacleX + currentObstacleW) { //Collision SUP
 			this.vy = 0;
 			this.isJumping = false;
 			this.y = currentObstacleY - this.h;
-			lastObstacleY = currentObstacleY;
-			this.isJumping = false;
+			console.log('SI')
+		} else {
+			//this.vy = 1;
+			this.vy += this.GRAVITY;
+			this.y += this.vy;
 		}
 	}
 }
