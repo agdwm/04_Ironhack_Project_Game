@@ -5,8 +5,12 @@ function Burger (game) {
 	//this.x = 0;
 	this.y = 0;
 
-	this.speedX = 3;
-	this.speedY = 3;
+	//this.speedXArr = [1, -1];
+	//this.speedXRandom = Math.floor(Math.random() * this.speedXArr.length);
+	//this.speedX = this.speedX * this.speedXArr[this.speedXRandom]; //-5 o 5
+
+	this.speedX = 5;
+	this.speedY = 2;
 
 	this.img = new Image();
 	this.img.src = 'images/burger.png';
@@ -30,24 +34,14 @@ Burger.prototype.draw = function() {
 }
 
 Burger.prototype.move = function() {
+	if (this.y + this.speedY > this.game.canvas.height - this.h || this.y + this.speedY < 0 ) {
+		this.speedY = -this.speedY;
+	}
+
+	if (this.x + this.speedX > this.game.canvas.width - this.w || this.x + this.speedX < 0 ) {
+		this.speedX = -this.speedX;
+	}
+
 	this.x += this.speedX;
 	this.y += this.speedY;
-
-	if (this.x + this.speedX >= this.game.canvas.width - this.w || this.x + this.speedX < 0) {
-		this.changeDirection(true, false);
-	}
-	if (this.y + this.speedY >= this.game.canvas.height - this.h || this.y + this.speedY < 0) {
-		this.changeDirection(false, true);
-	}
-}
-
-Burger.prototype.changeDirection = function(x, y) {
-	if(x) { 
-		this.speedX *= -1;
-		this.x += this.speedX;
-	}
-	if(y) {
-		this.speedY *= -1;
-		this.y += this.speedY;
-	}
 }

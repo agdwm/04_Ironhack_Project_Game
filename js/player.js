@@ -84,7 +84,7 @@ Player.prototype.animateImg = function () {
 		if (!this.isJumping) {
 			this.img.frameIndexW += 1;
 			if (this.img.frameIndexW > 1) this.img.frameIndexW = 0;
-		} 
+		}
 	}
 };
 
@@ -95,10 +95,6 @@ Player.prototype.animateDeath = function () {
 }
 
 Player.prototype.move = function () {
-	//check if collision when the character is not moving
-	// if (this.isObstacle()) {
-	// 	this.x += this.dxStart * -1;
-	// }
 	this.animateImg();
 	this.moveX();
 	this.moveY();
@@ -116,7 +112,6 @@ Player.prototype.handleHorCollision = function() {
 }
 
 Player.prototype.moveX = function () {
-	
 	if (this.keys.left) { //IZQUIERDA
 		this.img.src = this.imgLeft;
 		if (this.x < this.game.canvas.x) { //OUT
@@ -159,7 +154,6 @@ Player.prototype.isObstacle = function () {
 			this.currentObstacle = index;
 			return true
 		}
-
 	}.bind(this));
 }
 
