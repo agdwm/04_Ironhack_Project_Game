@@ -52,22 +52,34 @@ Burger.prototype.handleCollision = function() {
 	let currentObstacleY = this.game.obstaclesGenerated[this.currentObstacle].y;
 	let currentObstacleH = this.game.obstaclesGenerated[this.currentObstacle].h;
 
-	if (this.x + this.speedX > currentObstacleX - this.w && this.x + this.w < currentObstacleX + currentObstacleW) { //collision lEFT
-		this.speedX = -this.speedX;
-	}
-
-	if (this.x + this.speedX < currentObstacleX + currentObstacleW && this.x > currentObstacleX) { //collision RIGHT
-		this.speedX = -this.speedX;
-	}
 	
-	if (this.y + this.speedY > currentObstacleY - this.h && this.y + this.h < currentObstacleY + currentObstacleH &&
-		this.x + this.w > currentObstacleX && this.x < currentObstacleX + currentObstacleW) { //collision TOP
-		this.speedY = -this.speedY;
-	}
+	if (this.y + this.h + this.speedY > currentObstacleY  && 
+		this.y + this.speedY < currentObstacleY &&
+		this.y + this.h + this.speedY < currentObstacleY + currentObstacleH) { //collision TOP
+		console.log('TOP')
+		this.y = currentObstacleY - this.h;
+		this.speedY *= -1;
+	} else if (this.x + this.speedX + this.w > currentObstacleX && 
+		this.y + this.speedY > currentObstacleY &&
+		this.x + this.speedX + this.w < currentObstacleX + currentObstacleW) { //collision lEFT
+		console.log('LEFT')
+		this.x = currentObstacleX - this.w;
+		this.speedX = -this.speedX;
+	} else if (this.x + this.speedX < currentObstacleX + currentObstacleW && 
+		this.y + this.speedY > currentObstacleY &&
+		this.x + this.speedX > currentObstacleX) { //collision RIGHT
+		console.log('RIGHT')
+		this.x = currentObstacleX + currentObstacleW;
+		this.speedX = -this.speedX;
+	} 
 }
 
 Burger.prototype.isOutOfCanvasWidth = function() {
-	if (this.x + this.speedX > this.game.canvas.width - this.w || this.x + this.speedX < 0) {
+	if (this.x + this.speedX > this.game.canvas.width - this.w) {
+		this.x = this.game.canvas.width - this.w;
+		return true;
+	} else if (this.x + this.speedX < 0) {
+		this.x = 0;
 		return true;
 	}
 	return false;
@@ -87,18 +99,19 @@ Burger.prototype.move = function() {
 
 	if (this.isObstacle()) {
 		this.handleCollision();
+
 		if (this.isOutOfCanvasHeight()) {
-			this.speedY = -this.speedY;
+			this.speedY *= -1;
 		}
 		if (this.isOutOfCanvasWidth()) {
-			this.speedX = -this.speedX;
+			this.speedX *= -1;
 		}
 	} else {
 		if (this.isOutOfCanvasHeight()) {
-			this.speedY = -this.speedY;
+			this.speedY *= -1;
 		}
 		if (this.isOutOfCanvasWidth()) {
-			this.speedX = -this.speedX;
+			this.speedX *= -1;
 		}
 	}
 }
