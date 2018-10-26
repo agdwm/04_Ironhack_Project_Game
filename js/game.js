@@ -59,11 +59,13 @@ Game.prototype.start = function () {
 
 		//this.isBurgerCollisionObstacle();
 		this.isBurgerCollisionPlayer();
-		this.isPlayerCollisionHumorist();
-		//this.isPlayerOutOfWindow();
+		//this.isPlayerCollisionHumorist();
 
-		this.draw();
 		this.moveAll();
+		this.draw();
+		this.clearObstacles();
+		//this.isPlayerLeftBehind();
+		//this.player.isLevel();
 
 	}, 1000 / this.fps);
 
@@ -96,6 +98,7 @@ Game.prototype.restart = function() {
 Game.prototype.gameOver = function () {
 	this.stop();
 	lost.play();
+	console.log('Game Over')
 	setTimeout(function () {
 		location.reload();
 	}, 3000);
@@ -109,6 +112,12 @@ Game.prototype.gameWin = function () {
 	}, 3000);
 };
 
+Game.prototype.clearObstacles = function() {
+	this.obstaclesGenerated = this.obstaclesGenerated.filter(function(obstacle){
+		return obstacle.x + obstacle.w >= 0;
+	})
+}
+
 Game.prototype.generateObstacle = function () {
 	let index = Math.floor(Math.random() * (this.obstacles.length - 1 + 1) + 1);
 	this.obstaclesGenerated.push(new Obstacle(this, index));
@@ -116,12 +125,6 @@ Game.prototype.generateObstacle = function () {
 
 Game.prototype.generateBurgers = function () {
 	this.burgers.push(new Burger(this));
-}
-
-Game.prototype.isPlayerOutOfWindow = function() {
-	if (this.player.x <= -(this.player.w)) {
-		this.gameOver();
-	}
 }
 
 Game.prototype.isBurgerCollisionPlayer = function () {
@@ -133,18 +136,6 @@ Game.prototype.isBurgerCollisionPlayer = function () {
 				this.player.grow();
 				return true;
 		}
-	}.bind(this));
-};
-
-Game.prototype.isBurgerCollisionObstacle = function () {
-	this.burgers.forEach(function (burger) {
-		this.obstaclesGenerated.some(function (obstacle) {
-			if (obstacle.x + obstacle.w >= burger.x && burger.x + burger.w >= obstacle.x &&
-				obstacle.y + obstacle.h >= burger.y && burger.y + burger.h >= obstacle.y) {
-					burger.changeDirection(true, true);
-					console.log('COLLISION');
-				}
-		}.bind(this));
 	}.bind(this));
 };
 
@@ -191,7 +182,6 @@ Game.prototype.draw = function () {
 	});
 
 	this.burgers.forEach(function (burger) {
-		console.log('BURGER')
 		burger.draw();
 	});
 
