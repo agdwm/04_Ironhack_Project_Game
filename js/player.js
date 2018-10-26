@@ -197,12 +197,7 @@ Player.prototype.moveY = function () {
 			this.vy = 0;
 			this.isJumping = false;
 			this.y = currentObstacleY - this.h;
-			console.log('SI')
-		} else {
-			//this.vy = 1;
-			this.vy += this.GRAVITY;
-			this.y += this.vy;
-		}
+		} 
 	}
 }
 
