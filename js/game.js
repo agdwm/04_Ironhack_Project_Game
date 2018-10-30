@@ -60,12 +60,10 @@ Game.prototype.start = function () {
 		}
 
 		this.isBurgerCollisionPlayer();
-		//this.isPlayerCollisionHumorist();
 
-		this.moveAll();
 		this.draw();
+		this.moveAll();
 		this.clearObstacles();
-		//this.player.isLevel();
 
 	}, 1000 / this.fps);
 
@@ -103,10 +101,6 @@ Game.prototype.gameOver = function () {
 	this.infoWrap.classList.add('active');
 	document.getElementById('infoMessageLost').classList.add("active");
 	lost.play();
-
-	// setTimeout(function () {
-	// 	location.reload();
-	// }, 3000);
 };
 
 Game.prototype.gameWin = function () {
@@ -114,11 +108,6 @@ Game.prototype.gameWin = function () {
 
 	this.infoWrap.classList.add('active');
 	document.getElementById('infoMessageWin').classList.add("active");
-	win.play();
-	
-	// setTimeout(function () {
-	// 	location.reload();
-	// }, 3000);
 };
 
 Game.prototype.clearObstacles = function() {
@@ -149,10 +138,8 @@ Game.prototype.isBurgerCollisionPlayer = function () {
 };
 
 Game.prototype.isPlayerCollisionHumorist = function () {
-	if (this.player.x + this.player.w > this.humorist.x && this.humorist.x + this.humorist.w > this.player.x &&
+	if (this.player.x + this.player.w > this.humorist.x && this.humorist.x + this.humorist.w > this.player.x && 
 		this.player.y + this.player.h > this.humorist.y && this.humorist.y + this.humorist.h > this.player.y) {
-			this.humorist.animateImg();
-			this.gameWin();
 			return true;
 	}
 };
@@ -166,21 +153,29 @@ Game.prototype.moveAll = function () {
 			obstacle.move();
 		});
 	} else {
-		if (this.humorist.x > this.canvas.width - 330) {
-			this.background.move();
-			this.obstaclesGenerated.forEach(function(obstacle) {
-				obstacle.move();
-			});
-			this.humorist.move();
-		}
 		this.humorist.draw();
+
+		if (this.isPlayerCollisionHumorist()) {
+			this.humorist.animateImg();
+			win.play();
+			setTimeout(function () {
+				this.gameWin();
+			}.bind(this), 1000);
+		} else {
+			if (this.humorist.x > this.canvas.width - 330) {
+				this.background.move();
+				this.obstaclesGenerated.forEach(function(obstacle) {
+					obstacle.move();
+				});
+				this.humorist.move();
+			}
+		}
 	}
 
 	this.burgers.forEach(function (burger) {
 		burger.move();
 	});
 }
-
 
 Game.prototype.draw = function () {
 	
@@ -196,4 +191,5 @@ Game.prototype.draw = function () {
 
 	this.player.draw();
 }
+
 

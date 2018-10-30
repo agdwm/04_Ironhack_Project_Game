@@ -63,10 +63,10 @@ window.onload = function() {
 	let createNewGame = () => {
 		let canvasElem = document.getElementById(canvasId);
 		let canvasFloorElem = document.getElementById(canvasFloorId);
-		//let embedElem = document.getElementById(embedId);
+		let embedElem = document.getElementById(embedId);
 		setAttrs(canvasElem, canvasAttrs);
 		setAttrs(canvasFloorElem, canvasFloorAttrs);
-		//setAttrs(embedElem, emdedAttrs);
+		setAttrs(embedElem, emdedAttrs);
 		let game = new Game(canvasId);
 		game.start();
 	}
@@ -78,7 +78,7 @@ window.onload = function() {
 
 		DOMDisplay(canvasWrap, 'canvas', canvasId);
 		DOMDisplay(canvasWrap, 'div', canvasFloorId);
-		//DOMDisplay(container, 'embed', embedId);
+		DOMDisplay(container, 'embed', embedId);
 		createNewGame();
 	});
 }
