@@ -112,34 +112,41 @@ Player.prototype.handleHorCollision = function() {
 }
 
 Player.prototype.moveX = function () {
-	if (this.keys.left) { //IZQUIERDA
-		this.img.src = this.imgLeft;
-		if (this.x < this.game.canvas.x) { //OUT
-			this.x += 0;
-		} else { //INSIDE
-			this.x += this.dx * -1.8;
-			if (this.isObstacle()) {
-				this.handleHorCollision();
-			} 
-		}
-	} else { //DERECHA
-		this.img.src = this.imgRight;
-		if (this.x + this.w > this.game.canvas.width) { //OUT
-			if (this.isObstacle()) {
-				this.handleHorCollision();
-			} else {
+	if (this.x + this.w < this.game.canvas.x){
+		this.game.gameOver();
+	} else {
+		if (this.keys.left) { //IZQUIERDA
+			this.img.src = this.imgLeft;
+			if (this.x < this.game.canvas.x) { //OUT
 				this.x += 0;
+				if (this.isObstacle()) {
+					this.handleHorCollision();
+				}
+			} else { //INSIDE
+				this.x += this.dx * -1.8;
+				if (this.isObstacle()) {
+					this.handleHorCollision();
+				}
 			}
-		} else { //INSIDE
-			if (this.keys.right) { 
+		} else { //DERECHA
+			this.img.src = this.imgRight;
+			if (this.x + this.w > this.game.canvas.width) { //OUT
 				if (this.isObstacle()) {
 					this.handleHorCollision();
 				} else {
-					this.x += this.dx;
+					this.x += 0;
 				}
-			} else {
-				if (this.isObstacle()) {
-					this.handleHorCollision();
+			} else { //INSIDE
+				if (this.keys.right) { 
+					if (this.isObstacle()) {
+						this.handleHorCollision();
+					} else {
+						this.x += this.dx;
+					}
+				} else {
+					if (this.isObstacle()) {
+						this.handleHorCollision();
+					}
 				}
 			}
 		}

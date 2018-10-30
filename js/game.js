@@ -57,14 +57,12 @@ Game.prototype.start = function () {
 			}
 		}
 
-		//this.isBurgerCollisionObstacle();
 		this.isBurgerCollisionPlayer();
 		//this.isPlayerCollisionHumorist();
 
 		this.moveAll();
 		this.draw();
 		this.clearObstacles();
-		//this.isPlayerLeftBehind();
 		//this.player.isLevel();
 
 	}, 1000 / this.fps);
