@@ -29,8 +29,8 @@ Obstacle.prototype.switchObstacle = function() {
 	switch (this.type) {
 		case 1:
 			this.img.src = 'images/obstacle1.png';
-			this.w = 196;
-			this.h = 250;
+			this.w = 200;
+			this.h = 260;
 			this.y = this.game.canvas.height - (this.h);
 			break;
 		case 2:
@@ -41,8 +41,8 @@ Obstacle.prototype.switchObstacle = function() {
 			break;
 		case 3:
 			this.img.src = 'images/obstacle3.png';
-			this.w = 150;
-			this.h = 150;
+			this.w = 250;
+			this.h = 250;
 			this.y = this.game.canvas.height - (this.h);
 			break;	
 	}
