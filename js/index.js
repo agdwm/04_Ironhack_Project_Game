@@ -14,7 +14,6 @@ window.onload = function() {
 	let canvasWidth = window.innerWidth;
 	let canvasHeight = window.innerHeight * 0.85; //canvas-floor: * 0.15
 	var score = document.getElementById('score');
-	var handleGame = document.getElementById('handleGame');
 
 	let canvasAttrs = {
 		width: canvasWidth,
@@ -42,7 +41,6 @@ window.onload = function() {
 	let makeTitleSmaller = (hero) => {
 		hero.classList.add('small');
 		score.classList.add('active');
-		handleGame.classList.add('active');
 	}
 
 	let createElem = (type, idName) => {

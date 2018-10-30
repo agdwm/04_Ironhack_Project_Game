@@ -6,7 +6,8 @@ function Game(canvasId) {
 	this.canvas.x = 0;
 	this.btnPause = document.getElementById('btn-pause');
 	this.btnRestart = document.getElementById('btn-restart');
-
+	this.infoWrap = document.getElementById("infoWrap");
+	
 	this.reset();
 }
 
@@ -30,6 +31,7 @@ Game.prototype.reset = function () {
 	// Score
 	this.counterScore = 0;
 	this.scoreItems = document.getElementsByClassName("icon-cartman");
+	
 }
 
 Game.prototype.start = function () {
@@ -88,26 +90,35 @@ Game.prototype.changeScore = function () {
 
 Game.prototype.restart = function() {
 	this.stop();
+	
 	setTimeout(function () {
 		location.reload();
-	}, 3000);		
+	}, 500);
+
 }
 
 Game.prototype.gameOver = function () {
 	this.stop();
+	
+	this.infoWrap.classList.add('active');
+	document.getElementById('infoMessageLost').classList.add("active");
 	lost.play();
-	console.log('Game Over')
-	setTimeout(function () {
-		location.reload();
-	}, 3000);
+
+	// setTimeout(function () {
+	// 	location.reload();
+	// }, 3000);
 };
 
 Game.prototype.gameWin = function () {
 	this.stop();
+
+	this.infoWrap.classList.add('active');
+	document.getElementById('infoMessageWin').classList.add("active");
 	win.play();
-	setTimeout(function () {
-		location.reload();
-	}, 3000);
+	
+	// setTimeout(function () {
+	// 	location.reload();
+	// }, 3000);
 };
 
 Game.prototype.clearObstacles = function() {

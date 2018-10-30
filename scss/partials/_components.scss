@@ -2,9 +2,65 @@
 	overflow: hidden;
     height: 100vh;
 }
-.hero-wrap {
+
+
+.info-wrap {
 	text-align: center;
 	position: absolute;
+	z-index: 2;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, .9);
+	display: none;
+	&.active {
+		display: block;
+	}	
+	.infoMessage {
+		@include centerer (true, true);
+		top: 40%;
+		font-size: 52px;
+		text-transform: uppercase;
+		display: none;
+	}
+	.win {
+		color: $blue-color;
+		&.active {
+			display: block;
+		}
+	}
+	.lost {
+		color: $red-color;
+		&.active {
+			display: block;
+		}
+	}
+	p {
+		margin-bottom: 1.5rem;
+	}
+	.handleGame {
+		@include centerer (true, true);
+		top: 65%;
+		button {
+			border: 3px solid black;
+			padding: 0.8rem 2rem;
+			font-family: 'Londrina Solid', cursive;
+			cursor: pointer;
+			font-size: 1rem;
+			outline:none;
+			text-transform: uppercase;
+			&:hover {
+				border: 2px solid lighten($red-color, 5%);
+				color: lighten($red-color, 5%);
+				
+			}
+		}
+	}
+}
+	
+
+
+.hero-wrap {
+	text-align: center;
 	z-index: 1;
 	@include centerer(true, true);
 	transition: all 0.8s ease;
@@ -97,37 +153,7 @@
 	
 }
 
-.handleGame {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	display: none;
 
-	button {
-		border: 2px solid black;
-		padding: 10px 15px;
-		font-family: 'Londrina Solid', cursive;
-		cursor: pointer;
-		margin-right:10px;
-		font-size: 1rem;
-		outline:none;
-
-		&:hover {
-			border: 2px solid lighten($red-color, 5%);
-			color: lighten($red-color, 5%);
-			
-		}
-	}
-
-	&.active {
-		display: flex;
-		position: absolute;
-		left: 60px;
-		top: 30px;
-	}
-
-
-}
 
 //ICON FONTS
 .icon-cartman.hidden{

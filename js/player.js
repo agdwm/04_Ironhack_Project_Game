@@ -25,7 +25,7 @@ function Player(game) {
 
 	this.vy = 1;
 	this.isJumping = false;
-	this.maxLives = 4;
+	this.maxLives = 5;
 
 
 	this.ARROW_CODES = {
@@ -87,12 +87,6 @@ Player.prototype.animateImg = function () {
 		}
 	}
 };
-
-Player.prototype.animateDeath = function () {
-	this.img.src = this.imgFront;
-	this.img.frameIndexH = 0;
-	this.img.frameIndexW = 1;
-}
 
 Player.prototype.move = function () {
 	this.animateImg();
@@ -205,16 +199,16 @@ Player.prototype.moveY = function () {
 Player.prototype.grow = function () {
 	this.weight++;
 
-	if (this.weight <= this.maxLives) {
+	if (this.weight < this.maxLives) {
 		this.img.frameIndexH = this.weight;
 		grow.pause();
 		grow.play();
 	} else {
-		console.log('WEIGHT', this.weight);
-		this.animateDeath();
-
+		grow.pause();
+		grow.play();
+		
 		setTimeout(function () {
 			this.game.gameOver();
-		}.bind(this), 1000);
+		}.bind(this), 500);
 	}
 }
