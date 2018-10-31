@@ -51,19 +51,16 @@ Burger.prototype.handleCollision = function() {
 	if (this.y + this.h + this.vy > currentObstacleY  && 
 		this.y + this.vy < currentObstacleY &&
 		this.y + this.h + this.vy < currentObstacleY + currentObstacleH) { //collision TOP
-		console.log('TOP')
 		this.y = currentObstacleY - this.h;
 		this.vy *= -1;
 	} else if (this.x + this.vx + this.w > currentObstacleX && 
 		this.y + this.vy > currentObstacleY &&
 		this.x + this.vx + this.w < currentObstacleX + currentObstacleW) { //collision lEFT
-		console.log('LEFT')
 		this.x = currentObstacleX - this.w;
 		this.vx = -this.vx;
 	} else if (this.x + this.vx < currentObstacleX + currentObstacleW && 
 		this.y + this.vy > currentObstacleY &&
 		this.x + this.vx > currentObstacleX) { //collision RIGHT
-		console.log('RIGHT')
 		this.x = currentObstacleX + currentObstacleW;
 		this.vx = -this.vx;
 	} 

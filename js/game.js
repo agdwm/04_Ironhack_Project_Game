@@ -4,7 +4,6 @@ function Game(canvasId) {
 	this.fps = 60;
 	this.startTime = new Date().getTime();
 	this.canvas.x = 0;
-	this.btnPause = document.getElementById('btn-pause');
 	this.btnRestart = document.getElementById('btn-restart');
 	this.infoWrap = document.getElementById("infoWrap");
 	
@@ -17,6 +16,7 @@ Game.prototype.reset = function () {
 	this.obstacle = new Obstacle(this);
 	this.humorist = new Humorist(this);
 
+	this.status = null;
 	this.framesCounter = 0;
 
 	// Obstacles
@@ -97,17 +97,21 @@ Game.prototype.restart = function() {
 
 Game.prototype.gameOver = function () {
 	this.stop();
-	
-	this.infoWrap.classList.add('active');
-	document.getElementById('infoMessageLost').classList.add("active");
-	lost.play();
+	if(this.status === null) {
+		this.status = 'lost';
+		this.infoWrap.classList.add('active');
+		document.getElementById('infoMessageLost').classList.add("active");
+		lost.play();
+	}
 };
 
 Game.prototype.gameWin = function () {
 	this.stop();
-
-	this.infoWrap.classList.add('active');
-	document.getElementById('infoMessageWin').classList.add("active");
+	if (this.status === null) {
+		this.status = 'win';
+		this.infoWrap.classList.add('active');
+		document.getElementById('infoMessageWin').classList.add("active");
+	}
 };
 
 Game.prototype.clearObstacles = function() {

@@ -105,6 +105,8 @@ Player.prototype.handleHorCollision = function() {
 	}
 }
 
+
+
 Player.prototype.moveX = function () {
 	if (this.x + this.w < this.game.canvas.x){
 		this.game.gameOver();
@@ -169,8 +171,22 @@ Player.prototype.isOnTheFloor = function() {
 	return false;
 }
 
-Player.prototype.moveY = function () {
+Player.prototype.handleVerCollision = function() {
+	let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
+	let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
+	let currentObstacleY = this.game.obstaclesGenerated[this.currentObstacle].y;
+	let currentObstacleH = this.game.obstaclesGenerated[this.currentObstacle].h;
 	
+	if (this.y + this.h > currentObstacleY && this.y + this.h < currentObstacleY + currentObstacleH && 
+		this.x + this.w > currentObstacleX && this.x < currentObstacleX + currentObstacleW) { //Collision SUP
+		this.vy = 0;
+		this.y = currentObstacleY - this.h
+		this.isJumping = false;
+	} 
+}
+
+Player.prototype.moveY = function () {
+
 	if (this.isOnTheFloor()) {
 		this.vy = 1;
 		this.y = this.y0;
@@ -178,26 +194,15 @@ Player.prototype.moveY = function () {
 	} else {
 		this.vy += this.GRAVITY;
 		this.y += this.vy;
+		if (this.isObstacle()) {
+			this.handleVerCollision();
+		}
 	}
 
 	if (this.keys.top && !this.isJumping) {
 		this.y -= 70;
 		this.vy -= 25;
 		this.isJumping = true;
-	}
-
-	if (this.isObstacle() && !this.isOnTheFloor()) {
-		let currentObstacleX = this.game.obstaclesGenerated[this.currentObstacle].x;
-		let currentObstacleW = this.game.obstaclesGenerated[this.currentObstacle].w;
-		let currentObstacleY = this.game.obstaclesGenerated[this.currentObstacle].y;
-		let currentObstacleH = this.game.obstaclesGenerated[this.currentObstacle].h;
-		
-		if (this.y + this.h > currentObstacleY && this.y + this.h < currentObstacleY + currentObstacleH && 
-			this.x + this.w > currentObstacleX && this.x < currentObstacleX + currentObstacleW) { //Collision SUP
-			this.vy = 0;
-			this.isJumping = false;
-			this.y = currentObstacleY - this.h;
-		} 
 	}
 }
 
