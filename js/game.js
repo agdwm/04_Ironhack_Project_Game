@@ -45,14 +45,14 @@ Game.prototype.start = function () {
 			this.framesCounter = 0;
 		}
 
-		if (this.framesCounter % 300 === 0) {
+		if (this.framesCounter % 400 === 0) {
 			this.counterObstacles++;
 			if (this.counterObstacles <= this.limitOfObstacles) {
 				this.generateObstacle();
 			}
 		}
 
-		if (this.framesCounter % 300 === 0) {
+		if (this.framesCounter % 400 === 0) {
 			if (this.counterBurgers < this.limitOfBurgers) {
 				this.generateBurgers();
 				this.counterBurgers++;
@@ -156,13 +156,18 @@ Game.prototype.moveAll = function () {
 		this.humorist.draw();
 
 		if (this.isPlayerCollisionHumorist()) {
+			// if (this.player.keys.right) {
+			// 	this.player.x += 0;
+			// 	console.log('COLLISION HUMORISTS')
+			// }
 			this.humorist.animateImg();
 			win.play();
 			setTimeout(function () {
 				this.gameWin();
+				
 			}.bind(this), 1000);
 		} else {
-			if (this.humorist.x > this.canvas.width - 330) {
+			if (this.humorist.x > this.canvas.width - 430) {
 				this.background.move();
 				this.obstaclesGenerated.forEach(function(obstacle) {
 					obstacle.move();

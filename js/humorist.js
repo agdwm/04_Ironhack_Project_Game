@@ -4,8 +4,8 @@ function Humorist(game) {
 	this.img = new Image();
 	this.img.src = 'images/humorists.png';
 
-	this.w = 288; //width of each frame
-	this.h = 300; //height of each frame
+	this.w = 350; //width of each frame
+	this.h = 410; //height of each frame
 	this.x = this.game.canvas.width;
 	this.y = this.game.canvas.height - this.h ;
 

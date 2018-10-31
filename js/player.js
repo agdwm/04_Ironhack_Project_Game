@@ -135,7 +135,11 @@ Player.prototype.moveX = function () {
 					if (this.isObstacle()) {
 						this.handleHorCollision();
 					} else {
-						this.x += this.dx;
+						if (this.game.isPlayerCollisionHumorist()) {
+							this.x += 0;
+						} else {
+							this.x += this.dx;
+						}
 					}
 				} else {
 					if (this.isObstacle()) {
