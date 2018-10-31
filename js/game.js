@@ -14,7 +14,7 @@ Game.prototype.reset = function () {
 	this.background = new Background(this);
 	this.player = new Player(this);
 	this.obstacle = new Obstacle(this);
-	this.humorist = new Humorist(this);
+	this.jail = new Jail(this);
 
 	this.status = null;
 	this.framesCounter = 0;
@@ -141,9 +141,9 @@ Game.prototype.isBurgerCollisionPlayer = function () {
 	}.bind(this));
 };
 
-Game.prototype.isPlayerCollisionHumorist = function () {
-	if (this.player.x + this.player.w > this.humorist.x && this.humorist.x + this.humorist.w > this.player.x && 
-		this.player.y + this.player.h > this.humorist.y && this.humorist.y + this.humorist.h > this.player.y) {
+Game.prototype.isPlayerCollisionJail = function () {
+	if (this.player.x + this.player.w > this.jail.x && this.jail.x + this.jail.w > this.player.x && 
+		this.player.y + this.player.h > this.jail.y && this.jail.y + this.jail.h > this.player.y) {
 			return true;
 	}
 };
@@ -156,16 +156,16 @@ Game.prototype.moveAll = function () {
 			obstacle.move();
 		});
 	} else {
-		if (this.humorist.x > this.canvas.width - 440) {
+		if (this.jail.x > this.canvas.width - 440) {
 			this.background.move();
 			this.obstaclesGenerated.forEach(function(obstacle) {
 				obstacle.move();
 			});
-			this.humorist.move();
+			this.jail.move();
 		} else {
-			if (this.isPlayerCollisionHumorist()) {
-				if (this.humorist.x + this.humorist.w < this.canvas.width) {
-					this.humorist.animateImg();
+			if (this.isPlayerCollisionJail()) {
+				if (this.jail.x + this.jail.w < this.canvas.width) {
+					this.jail.animateImg();
 					win.play();
 					setTimeout(function () {
 						this.gameWin();
@@ -195,7 +195,7 @@ Game.prototype.drawAll = function () {
 	});
 
 	if (new Date().getTime() - this.startTime >= 60000) {
-		this.humorist.draw();
+		this.jail.draw();
 	}
 
 	this.player.draw();

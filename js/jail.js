@@ -1,8 +1,8 @@
-function Humorist(game) {
+function Jail(game) {
 	this.game = game;
 
 	this.img = new Image();
-	this.img.src = 'images/humorists.png';
+	this.img.src = 'images/jail.png';
 
 	this.w = 350; //width of each frame
 	this.h = 410; //height of each frame
@@ -16,7 +16,7 @@ function Humorist(game) {
 	this.img.frameIndexW = 0;
 }
 
-Humorist.prototype.draw = function () {
+Jail.prototype.draw = function () {
 	this.game.ctx.drawImage(
 		this.img,
 		this.img.frameIndexW * Math.floor(this.img.width / this.img.framesW),
@@ -30,10 +30,10 @@ Humorist.prototype.draw = function () {
 	);
 }
 
-Humorist.prototype.animateImg = function(){
+Jail.prototype.animateImg = function(){
 	this.img.frameIndexW = 1;
 }
 
-Humorist.prototype.move = function () {
+Jail.prototype.move = function () {
 	this.x -= this.vx;
 };
