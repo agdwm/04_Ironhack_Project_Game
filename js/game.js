@@ -61,8 +61,8 @@ Game.prototype.start = function () {
 
 		this.isBurgerCollisionPlayer();
 
-		this.draw();
 		this.moveAll();
+		this.drawAll();
 		this.clearObstacles();
 
 	}, 1000 / this.fps);
@@ -149,7 +149,6 @@ Game.prototype.isPlayerCollisionHumorist = function () {
 };
 
 Game.prototype.moveAll = function () {
-	this.player.move();
 
 	if (new Date().getTime() - this.startTime < 60000) {
 		this.background.move();
@@ -157,31 +156,33 @@ Game.prototype.moveAll = function () {
 			obstacle.move();
 		});
 	} else {
-		this.humorist.draw();
-
-		if (this.isPlayerCollisionHumorist()) {
-			this.humorist.animateImg();
-			win.play();
-			setTimeout(function () {
-				this.gameWin();
-			}.bind(this), 1000);
+		if (this.humorist.x > this.canvas.width - 440) {
+			this.background.move();
+			this.obstaclesGenerated.forEach(function(obstacle) {
+				obstacle.move();
+			});
+			this.humorist.move();
 		} else {
-			if (this.humorist.x > this.canvas.width - 440) {
-				this.background.move();
-				this.obstaclesGenerated.forEach(function(obstacle) {
-					obstacle.move();
-				});
-				this.humorist.move();
-			}
+			if (this.isPlayerCollisionHumorist()) {
+				if (this.humorist.x + this.humorist.w < this.canvas.width) {
+					this.humorist.animateImg();
+					win.play();
+					setTimeout(function () {
+						this.gameWin();
+					}.bind(this), 1000);
+				}
+			} 
 		}
 	}
+
+	this.player.move();
 
 	this.burgers.forEach(function (burger) {
 		burger.move();
 	});
 }
 
-Game.prototype.draw = function () {
+Game.prototype.drawAll = function () {
 	
 	this.background.draw();
 	
@@ -192,6 +193,10 @@ Game.prototype.draw = function () {
 	this.burgers.forEach(function (burger) {
 		burger.draw();
 	});
+
+	if (new Date().getTime() - this.startTime >= 60000) {
+		this.humorist.draw();
+	}
 
 	this.player.draw();
 }
