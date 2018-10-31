@@ -9,8 +9,8 @@ function Player(game) {
 	
 	this.img.src = this.imgRight;
 
-	this.w = 195;
-	this.h = 150;
+	this.w = 157;
+	this.h = 130;
 	this.x = 20;
 	this.y0 = this.game.canvas.height - (this.h - 5); //5px borders image
 	this.y = this.y0;
