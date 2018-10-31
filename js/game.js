@@ -45,7 +45,7 @@ Game.prototype.start = function () {
 			this.framesCounter = 0;
 		}
 
-		if (this.framesCounter % 400 === 0) {
+		if (this.framesCounter % 350 === 0) {
 			this.counterObstacles++;
 			if (this.counterObstacles <= this.limitOfObstacles) {
 				this.generateObstacle();
@@ -156,18 +156,13 @@ Game.prototype.moveAll = function () {
 		this.humorist.draw();
 
 		if (this.isPlayerCollisionHumorist()) {
-			// if (this.player.keys.right) {
-			// 	this.player.x += 0;
-			// 	console.log('COLLISION HUMORISTS')
-			// }
 			this.humorist.animateImg();
 			win.play();
 			setTimeout(function () {
 				this.gameWin();
-				
 			}.bind(this), 1000);
 		} else {
-			if (this.humorist.x > this.canvas.width - 430) {
+			if (this.humorist.x > this.canvas.width - 440) {
 				this.background.move();
 				this.obstaclesGenerated.forEach(function(obstacle) {
 					obstacle.move();

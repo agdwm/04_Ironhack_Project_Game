@@ -4,7 +4,6 @@ window.onload = function() {
 	let homeCharacter = document.getElementById('hero-character');
 	let heroWrap = document.getElementById('hero-wrap');
 	let canvasWrap = document.getElementById('canvas-wrap');
-	let body = this.document.getElementById('body');
 
 	let itemsToRemove = [btnStart, homeCharacter];
 	

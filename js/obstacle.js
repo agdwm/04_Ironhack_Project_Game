@@ -5,7 +5,7 @@ function Obstacle (game, type){
 	this.x = this.game.canvas.width;
 
 	this.type = type;
-	this.dx = 4;
+	this.vx = 4;
 
 	this.switchObstacle();
 }
@@ -49,5 +49,5 @@ Obstacle.prototype.switchObstacle = function() {
 }
 
 Obstacle.prototype.move = function () {
-	this.x -= this.dx;
+	this.x -= this.vx;
 };

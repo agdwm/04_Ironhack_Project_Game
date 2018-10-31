@@ -9,7 +9,7 @@ function Humorist(game) {
 	this.x = this.game.canvas.width;
 	this.y = this.game.canvas.height - this.h ;
 
-	this.dx = 4;
+	this.vx = 4;
 
  	this.img.framesW = 2; 
  	this.img.frameIndex = 0;
@@ -35,5 +35,5 @@ Humorist.prototype.animateImg = function(){
 }
 
 Humorist.prototype.move = function () {
-	this.x -= this.dx;
+	this.x -= this.vx;
 };

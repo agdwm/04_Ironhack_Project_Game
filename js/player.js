@@ -21,7 +21,7 @@ function Player(game) {
 	this.img.frameIndexW = 0;
 	this.img.frameIndexH = 0;
 
-	this.dx = 4;
+	this.vx = 4;
 
 	this.vy = 1;
 	this.isJumping = false;
@@ -117,7 +117,7 @@ Player.prototype.moveX = function () {
 					this.handleHorCollision();
 				}
 			} else { //INSIDE
-				this.x += this.dx * -1.8;
+				this.x += this.vx * -1.8;
 				if (this.isObstacle()) {
 					this.handleHorCollision();
 				}
@@ -138,7 +138,7 @@ Player.prototype.moveX = function () {
 						if (this.game.isPlayerCollisionHumorist()) {
 							this.x += 0;
 						} else {
-							this.x += this.dx;
+							this.x += this.vx;
 						}
 					}
 				} else {
@@ -170,11 +170,12 @@ Player.prototype.isOnTheFloor = function() {
 }
 
 Player.prototype.moveY = function () {
-	if (this.isOnTheFloor()) {		
+	
+	if (this.isOnTheFloor()) {
 		this.vy = 1;
 		this.y = this.y0;
 		this.isJumping = false;
-	} else {		
+	} else {
 		this.vy += this.GRAVITY;
 		this.y += this.vy;
 	}

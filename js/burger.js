@@ -2,15 +2,10 @@ function Burger (game) {
 	this.game = game;
 
 	this.x = (Math.floor(Math.random() * this.game.canvas.width));
-	//this.x = 0;
 	this.y = 0;
 
-	//this.speedXArr = [1, -1];
-	//this.speedXRandom = Math.floor(Math.random() * this.speedXArr.length);
-	//this.speedX = this.speedX * this.speedXArr[this.speedXRandom]; //-5 o 5
-
-	this.speedX = 5;
-	this.speedY = 5;
+	this.vx = 5;
+	this.vy = 5;
 
 	this.img = new Image();
 	this.img.src = 'images/burger.png';
@@ -53,32 +48,32 @@ Burger.prototype.handleCollision = function() {
 	let currentObstacleH = this.game.obstaclesGenerated[this.currentObstacle].h;
 
 	
-	if (this.y + this.h + this.speedY > currentObstacleY  && 
-		this.y + this.speedY < currentObstacleY &&
-		this.y + this.h + this.speedY < currentObstacleY + currentObstacleH) { //collision TOP
+	if (this.y + this.h + this.vy > currentObstacleY  && 
+		this.y + this.vy < currentObstacleY &&
+		this.y + this.h + this.vy < currentObstacleY + currentObstacleH) { //collision TOP
 		console.log('TOP')
 		this.y = currentObstacleY - this.h;
-		this.speedY *= -1;
-	} else if (this.x + this.speedX + this.w > currentObstacleX && 
-		this.y + this.speedY > currentObstacleY &&
-		this.x + this.speedX + this.w < currentObstacleX + currentObstacleW) { //collision lEFT
+		this.vy *= -1;
+	} else if (this.x + this.vx + this.w > currentObstacleX && 
+		this.y + this.vy > currentObstacleY &&
+		this.x + this.vx + this.w < currentObstacleX + currentObstacleW) { //collision lEFT
 		console.log('LEFT')
 		this.x = currentObstacleX - this.w;
-		this.speedX = -this.speedX;
-	} else if (this.x + this.speedX < currentObstacleX + currentObstacleW && 
-		this.y + this.speedY > currentObstacleY &&
-		this.x + this.speedX > currentObstacleX) { //collision RIGHT
+		this.vx = -this.vx;
+	} else if (this.x + this.vx < currentObstacleX + currentObstacleW && 
+		this.y + this.vy > currentObstacleY &&
+		this.x + this.vx > currentObstacleX) { //collision RIGHT
 		console.log('RIGHT')
 		this.x = currentObstacleX + currentObstacleW;
-		this.speedX = -this.speedX;
+		this.vx = -this.vx;
 	} 
 }
 
 Burger.prototype.isOutOfCanvasWidth = function() {
-	if (this.x + this.speedX > this.game.canvas.width - this.w) {
+	if (this.x + this.vx > this.game.canvas.width - this.w) {
 		this.x = this.game.canvas.width - this.w;
 		return true;
-	} else if (this.x + this.speedX < 0) {
+	} else if (this.x + this.vx < 0) {
 		this.x = 0;
 		return true;
 	}
@@ -86,7 +81,7 @@ Burger.prototype.isOutOfCanvasWidth = function() {
 }
 
 Burger.prototype.isOutOfCanvasHeight = function() {
-	if (this.y + this.speedY > this.game.canvas.height - this.h || this.y + this.speedY < 0) {
+	if (this.y + this.vy > this.game.canvas.height - this.h || this.y + this.vy < 0) {
 		return true;
 	}
 	return false;
@@ -94,24 +89,24 @@ Burger.prototype.isOutOfCanvasHeight = function() {
 
 Burger.prototype.move = function() {
 
-	this.x += this.speedX;
-	this.y += this.speedY;
+	this.x += this.vx;
+	this.y += this.vy;
 
 	if (this.isObstacle()) {
 		this.handleCollision();
 
 		if (this.isOutOfCanvasHeight()) {
-			this.speedY *= -1;
+			this.vy *= -1;
 		}
 		if (this.isOutOfCanvasWidth()) {
-			this.speedX *= -1;
+			this.vx *= -1;
 		}
 	} else {
 		if (this.isOutOfCanvasHeight()) {
-			this.speedY *= -1;
+			this.vy *= -1;
 		}
 		if (this.isOutOfCanvasWidth()) {
-			this.speedX *= -1;
+			this.vx *= -1;
 		}
 	}
 }
