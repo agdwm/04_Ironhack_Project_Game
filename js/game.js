@@ -190,13 +190,13 @@ Game.prototype.drawAll = function () {
 		obstacle.draw();
 	});
 
-	this.burgers.forEach(function (burger) {
-		burger.draw();
-	});
-
 	if (new Date().getTime() - this.startTime >= 60000) {
 		this.jail.draw();
 	}
+
+	this.burgers.forEach(function (burger) {
+		burger.draw();
+	});
 
 	this.player.draw();
 }
